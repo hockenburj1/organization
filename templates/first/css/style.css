@@ -1,0 +1,261 @@
+/* 
+    Document   : style
+    Created on : May 22, 2014, 10:20:52 AM
+    Author     : hocke_000
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body {
+	background-image:url('../images/dark_wood.png');
+}
+
+.title {
+    color: blue;
+    font-size: 25px;
+}
+
+.subtitle {
+    color: darkblue;
+}
+
+a {
+    color: black;
+}
+
+.organization-box {
+    border-bottom-color: black;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    padding: 5px 1px;
+}
+
+#container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+#info {
+    padding: 20px 40px;
+    overflow: auto;
+	background-color: white;
+    -moz-box-shadow:    3px 3px 29px 6px black;
+    -webkit-box-shadow: 3px 3px 29px 6px black;
+    box-shadow:         3px 3px 29px 6px black;
+	margin-top: 10px;
+	font-size:18px;
+}
+
+#header {
+    padding: 15px 10px;
+    color: white;
+}
+
+#header a {
+	color: white;
+	text-decoration: none;
+}
+
+#logo a {
+    color: white;
+    text-decoration: none;
+	font-size: 30px;
+}
+
+#logout {
+    float: right;
+}
+
+.remove_link {
+    font-size: 12px;
+    color: lightgray;
+    padding-left: 10px;
+}
+
+.search-box {
+    height:35px;
+    padding: 0 5px;
+}
+
+.search-box-main {
+    width: 40%;
+    margin-right: 5px; 
+    margin-bottom: 5px;
+}
+
+.button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f7f4f7), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #f7f4f7 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f4f7', endColorstr='#dfdfdf');
+	background-color:#f7f4f7;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#000000;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:35px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ffffff;
+}
+.button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #f7f4f7) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #f7f4f7 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#f7f4f7');
+	background-color:#dfdfdf;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+#menu {
+    background-color: lightgray;
+	padding: 7px 20px;
+}
+
+#menu a {
+	font-size: 22px;
+	padding-right: 15px;
+	text-decoration: none;
+}
+
+.organization_search_result {
+    width: 40%;
+    float: left;
+    padding-right: 5%; 
+}
+
+h1 {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+input {
+    margin: 0;
+}
+
+.form, .primary {
+    width:60%;
+    margin-right: 5%;
+    float: left;
+}
+
+.form label {
+    width: 20%;
+    display: inline-block;
+    padding-bottom: 7px;
+    padding-right: 15px;
+    vertical-align: top;
+    padding-top: 4px;
+}
+
+.form input[type=text], .form input[type=password], .form input[type=file], .form textarea, .form-right {
+    width: 70%;
+    padding: 5px;
+}
+
+.form-right {
+    margin-top: -15px;
+    padding-left: 21%;
+}
+
+.form-extra , .secondary{
+    width: 30%;
+    padding: 5px 2.5%;
+    /*background-color: #F2F2F2;*/
+	background-color: white;
+    float: left;
+}
+
+.form-extra h3 {
+    margin: 5px 0;
+}
+
+.error {
+    background-color: lightpink;
+    padding: 5px;
+    border-width: 1px;
+    border-color: red;
+    border-style: solid;
+    margin-bottom: 5px;
+    color: darkred;
+}
+
+.invalid-field {
+	border-width: 2px;
+    border-color: red;
+    border-style: solid;
+    color: darkred;
+}
+
+a[class=button] {
+	height:auto;
+	padding: 8px;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .search-box-main {
+        width: 100%;
+    }
+  
+    #info {
+        padding: 20px;
+    }
+  
+    #info h1 {
+        font-size: 20px;
+    }
+    
+    .form {
+        width: 100%;
+    }
+    
+    .form-extra {
+        width: 90%;
+        padding: 5px 5%;
+    }
+    
+    
+}
+
+@media (max-width: 320px) {
+    #container {
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        margin: 0;
+    }
+    
+    body {
+        margin: 0;
+    }
+}

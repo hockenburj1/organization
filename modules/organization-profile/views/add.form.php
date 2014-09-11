@@ -14,7 +14,7 @@
         <label>Image/Logo:</label><input type="file" />
     </p>
     <p>
-        <label>Parent:</label><input type="text" name="parent" id="parent" />
+        <label>Parent:</label><input type="text" name="parent" id="parent-name" />
     </p>
     <p>
         <input type="checkbox"/> I would like this organization to appear in the search results.
@@ -47,12 +47,44 @@ $(function() {
       alert(message);
     }
  
-    $( "#parent" ).autocomplete({
+    /*$( '#parent' ).autocomplete({
       source: "<?php echo $module_url ?>parent-search.php",
       minLength: 2,
       select: function( event, ui ) {
         $('#parent_id').val(ui.item.id);
       }
-    });
+    });*/
+    
+    
 });
 </script>
+
+<!--<script>
+  $(function() {
+    $( "#parent" ).autocomplete({
+      source: "<?php echo $module_url ?>parent-search.php",
+      minLength: 2   
+    });
+    
+  });
+</script>-->
+
+<script>
+  $(function() {
+     
+    function log( message ) {
+      alert('message');
+    }
+ 
+    $( "#parent-name" ).autocomplete({
+      source: "<?php echo $module_url ?>parent-search.php",
+      //source: [{"value":"Some Name","id":1},{"value":"Some Othername","id":2}],
+      minLength: 2,
+      select: function( event, ui ) {
+        log( ui.item ?
+          "Selected: " + ui.item.value + " aka " + ui.item.id :
+          "Nothing selected, input was " + this.value );
+      }
+    });
+  });
+  </script>

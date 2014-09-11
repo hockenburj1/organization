@@ -1,28 +1,8 @@
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<?php
+$organizations = '';
 
-  <script>
-  $(function() {
-    $( "#tag" ).autocomplete({
-      source: "<?php echo $module_url ?>search-processor.php",
-      minLength: 2   
-    });
-    
-  });
-  </script>
-  
-<div id="search-form">
-    <form action="search.php" method="post">
-        <input class="search-box search-box-main" type="text" placeholder="Organization name..." id="keyword" name="keyword" value="<?php if(isset($_POST['keyword'])) echo $_POST['keyword'] ?>"/>
-    <input class="search-box search-box-main" type="text" placeholder="Organization Association" id="tag" name="tag" value="<?php if(isset($_POST['tag'])) echo $_POST['tag'] ?>"/>
-    <input class="button" type="submit" />
-    </form>
-</div>
-  
-<?php  
 if (!empty($_POST)) {
-    $query;
+    $query = '';
     
     $keyword = $_POST['keyword'];
     $tag = $_POST['tag'];
@@ -66,8 +46,8 @@ if (!empty($_POST)) {
         $organizations[] = new Organization($db, $organization['oid']);
     }
     
-    include($module_location . 'views/search.content.php');
-    
+    $search_occured = TRUE;
 }
 
+include($module_location . 'views/search.content.php');
 ?>

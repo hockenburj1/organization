@@ -3,7 +3,7 @@ include('config.php');
 
 $page = new Template();
 
-$organization = new Organization($db, "1");
+$organization = new Organization($db, "2");
 $organizations = $organization->get_memberships();
 
 $user = get_user();

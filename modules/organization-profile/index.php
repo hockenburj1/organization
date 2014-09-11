@@ -1,5 +1,4 @@
 <?php
-
 $abbreviation = get('org');
 $action = get('action');
 $user = session('user');
@@ -11,36 +10,32 @@ if(!empty($user)) {
 $organization = Organization::search_abbreviation($abbreviation);
 
 if(empty($organization)) {
-    if($action != 'add_organization') {
-        header("location: search.php");
+    if($action == 'add_organization') {
+        include($module_location . 'views/add.form.php'); 
+    }
+    else {
+        header("location: search.php");    
     }
 }
 
+
 // check permissions if organization permissions are required
-if (!empty($organization)) {
-    if ($action == 'request_info' || $action == 'add_organization') {
-        do_action($action);
-    }
-    
-    elseif(empty($user) || !$user->has_permission($organization->id, $action) ) {
+if (!empty($organization)) {    
+    if(empty($user) || !$user->has_permission($organization->id, $action) ) {
         include($module_location . 'views/profile.content.php');
     }
     
     else {
-        do_action($action);
+        switch ($action) {
+            case 'request_info':
+                include($module_location . 'views/request-info.form.php');
+                break;
+
+            case 'delete_organization':
+                include($module_location . 'views/delete.form.php');
+                break;
+        }
     }
 }
 
-function do_action($action) {
-    global $module_location;
-    switch ($action) {
-        case 'request_info':
-            include($module_location . 'views/request-info.form.php');
-            break;
-
-        case 'add_organization':
-            include($module_location . 'views/add.form.php');
-            break;
-    }
-}
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-define('SITE_FOLDER', 'org/');
+define('SITE_FOLDER', 'organization/');
 $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'] . "/" . SITE_FOLDER;
 define('SITE_URL', 'http://test/' . SITE_FOLDER);
 
@@ -26,7 +26,7 @@ $db = new MySQLiDB(DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAM
 session_start();
 $filename = strtok(basename($_SERVER["REQUEST_URI"]),'?');
 
-$public_pages= array('index.php', 'search.php', 'search-processor.php', 'organization-profile.php', 'request-info.php', 'membership.php');
+$public_pages= array('index.php', 'search.php', 'search-processor.php', 'organization.php', 'request-info.php', 'membership.php');
 if(!isset($_SESSION['user']) && !in_array($filename, $public_pages)) {
     header("location: index.php");
 }

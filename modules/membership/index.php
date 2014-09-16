@@ -35,7 +35,7 @@ if(isset($_SESSION['user'])) {
     }
     
     else {
-        //if user is logged in and not loggin out
+        //if user is logged in and not logging out
         header("location: dashboard.php");
     }
         

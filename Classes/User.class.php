@@ -16,7 +16,6 @@ Class User {
         
         if($user_id != 0) {
             $this->id = $user_id;
-            $this->db = $db;
             $this->set_permissions();
             $this->set_user_info();
         }
@@ -129,6 +128,19 @@ WHERE membership.uid = :uid';
         return TRUE;
     }
     
+    
+    public static function exists($user_id) {
+        global $db;
+        $query = 'SELECT * FROM User WHERE uid = :uid LIMIT 1';
+        $params = array('uid' => $user_id);
+        $existing = $db->query($query, $params);
+        
+        if(empty($existing)) {
+            return FALSE;
+        }
+        
+        return TRUE;    
+    }
 }
 
     

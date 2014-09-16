@@ -6,19 +6,26 @@ Class Organization {
     public $name;
     public $description;
     public $parents;
+    public $parent;
     public $tags;
     public $abbreviation;
+    public $requestable;
     
-    function __construct($db, $organization_id){
+    function __construct($db, $organization_id = 0){
         $this->db = $db;
-        $result = $this->db->query("SELECT name, description, abbreviation FROM Organization WHERE oid = $organization_id");
         
-        $this->id = $organization_id;
-        $this->name = $result['0']['name'];
-        $this->description = $result['0']['description'];
-        $this->parents = $this->get_parents();
-        $this->tags = $this->get_tags();
-        $this->abbreviation = $result['0']['abbreviation'];
+        if($organization_id != 0) {
+            $result = $this->db->query("SELECT * FROM Organization WHERE oid = $organization_id");
+
+            $this->id = $organization_id;
+            $this->name = $result['0']['name'];
+            $this->description = $result['0']['description'];
+            $this->parents = $this->get_parents();
+            $this->parent = $result['0']['parent_oid'];
+            $this->tags = $this->get_tags();
+            $this->abbreviation = $result['0']['abbreviation'];
+            $this->requestable = $result['0']['membership_requestable'];
+        }
     }
     
     function get_name() {
@@ -147,8 +154,87 @@ Class Organization {
         }
     }
     
-    public static function add($name, $abbreviation, $description, $parent_id, $membership_requestable) {
+    public function save() {
+        if($this->name == "" || $this->abbreviation == "" || $this->description == "") {
+            return FALSE;
+        }
         
+        // If abbreviation doesn't exist
+        if($this->check_abbreviation()) {
+            $query = 'INSERT INTO Organization (name, abbreviation, description, parent_oid, membership_requestable) VALUES (:name, :abbreviation, :description, :parent_oid, :membership_requestable)';
+
+            $params = array(
+                'name' => $this->name,
+                'abbreviation' => $this->abbreviation,
+                'description' => $this->description,
+                'parent_oid' => $this->parent,
+                'membership_requestable' => $this->requestable
+            );
+
+            $this->db->query($query, $params);
+            $this->id = $this->db->last_id();
+            if(!$this->add_user(session('user'))) {
+                return false;
+            }
+        }
+        
+        // update organization
+        else {
+            $query = 'UPDATE Organization SET password = :password, first_name = :first_name, last_name = :last_name WHERE uid = :uid';
+
+            $params = array(
+                'uid' => $this->id,
+                'password' => $this->password,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name
+            );
+
+            $this->db->query($query, $params);    
+        }
+        return TRUE;    
+    }
+    
+    public function check_abbreviation() {
+        $query = 'SELECT abbreviation FROM Organization WHERE abbreviation = :abbreviation LIMIT 1';
+        $params = array('abbreviation' => $this->abbreviation);
+        $existing = $this->db->query($query, $params);
+        
+        if(!empty($existing)) {
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
+    
+    public function add_user($user_id) {
+        if(!User::exists($user_id)) {
+            return false;
+        }
+        
+        // Add user to organization
+        $query = 'INSERT INTO membership (oid, uid) VALUES(:oid, :uid)';
+        $params = array(
+                'oid' => $this->id,
+                'uid' => $user_id,
+        );
+        $this->db->query($query, $params); 
+        
+        // Assign admin role to organization
+        $query = 'INSERT INTO role_membership (oid, rid) VALUES(:oid, :rid)';
+        $params = array(
+                'oid' => $this->id,
+                'rid' => '1',
+        );
+        $this->db->query($query, $params);
+        
+        // Assign admin role to user 
+        $query = 'INSERT INTO user_role (uid, rid) VALUES(:uid, :rid)';
+        $params = array(
+                'uid' => $user_id,
+                'rid' => '1',
+        );
+        $this->db->query($query, $params); 
+        return true;
     }
 }
 

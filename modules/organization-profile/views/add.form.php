@@ -8,16 +8,16 @@
         <label>Abbreviation:</label><input type="text" name="abbreviation" />
     </p>
     <p>
-        <label>Description:</label><textarea rows="5"></textarea>
+        <label>Description:</label><textarea name="description" rows="5"></textarea>
     </p>
     <p>
-        <label>Image/Logo:</label><input type="file" />
+        <label>Image/Logo:</label><input name="logo" type="file" />
     </p>
     <p>
         <label>Parent:</label><input type="text" name="parent" id="parent-name" />
     </p>
     <p>
-        <input type="checkbox"/> I would like this organization to appear in the search results.
+        <input name="request" type="checkbox"/> I would like this organization to appear in the search results.
     </p>
     <input type="hidden" name="parent_id" id="parent_id" />
     <p>

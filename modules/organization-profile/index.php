@@ -43,6 +43,26 @@ if (!empty($organization)) {
     
     else {
         switch ($action) {
+            case 'edit_organization':
+                if(!empty($_POST)) {
+                    $new_organization = new Organization($db, $organization->id);
+                    $new_organization->name = post('name');
+                    $new_organization->abbreviation = post('abbreviation');
+                    $new_organization->description = post('description');
+                    $new_organization->parent = post('parent_id');
+                    $new_organization->requestable = post('request');
+
+                    if($new_organization->save()) {
+                        header('location: organizations.php');
+                    }
+
+                    else {
+                        $error = 'An error occured while updating the organization.';
+                    }
+                }
+                include($module_location . 'views/add.form.php');
+                break;
+            
             case 'request_info':
                 include($module_location . 'views/request-info.form.php');
                 break;

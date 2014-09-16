@@ -13,6 +13,7 @@ Class Organization {
     
     function __construct($db, $organization_id = 0){
         $this->db = $db;
+        $this->id = $organization_id;
         
         if($organization_id != 0) {
             $result = $this->db->query("SELECT * FROM Organization WHERE oid = $organization_id");
@@ -159,18 +160,18 @@ Class Organization {
             return FALSE;
         }
         
+        $params = array(
+            'name' => $this->name,
+            'abbreviation' => $this->abbreviation,
+            'description' => $this->description,
+            'parent_oid' => $this->parent,
+            'membership_requestable' => $this->requestable,
+            'oid' => $this->id
+        );
+        
         // If abbreviation doesn't exist
         if($this->check_abbreviation()) {
             $query = 'INSERT INTO Organization (name, abbreviation, description, parent_oid, membership_requestable) VALUES (:name, :abbreviation, :description, :parent_oid, :membership_requestable)';
-
-            $params = array(
-                'name' => $this->name,
-                'abbreviation' => $this->abbreviation,
-                'description' => $this->description,
-                'parent_oid' => $this->parent,
-                'membership_requestable' => $this->requestable
-            );
-
             $this->db->query($query, $params);
             $this->id = $this->db->last_id();
             if(!$this->add_user(session('user'))) {
@@ -180,15 +181,7 @@ Class Organization {
         
         // update organization
         else {
-            $query = 'UPDATE Organization SET password = :password, first_name = :first_name, last_name = :last_name WHERE uid = :uid';
-
-            $params = array(
-                'uid' => $this->id,
-                'password' => $this->password,
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name
-            );
-
+            $query = 'UPDATE Organization SET name = :name, abbreviation = :abbreviation, description = :description, parent_oid = :parent_oid, membership_requestable = :membership_requestable WHERE oid = :oid';
             $this->db->query($query, $params);    
         }
         return TRUE;    

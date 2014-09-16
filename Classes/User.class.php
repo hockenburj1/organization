@@ -8,13 +8,18 @@ Class User {
     public $last_name;
     public $is_admin = TRUE;
     public $roles;
+    public $password;
     public $db;
 
-    public function __construct($db, $user_id) {
-        $this->id = $user_id;
+    public function __construct($db, $user_id = 0) {
         $this->db = $db;
-        $this->set_permissions();
-        $this->set_user_info();
+        
+        if($user_id != 0) {
+            $this->id = $user_id;
+            $this->db = $db;
+            $this->set_permissions();
+            $this->set_user_info();
+        }
     }
     
     private function set_permissions() {
@@ -57,6 +62,7 @@ GROUP BY oid";
         $this->last_name = $info[0]['last_name'];
         $this->name = $info[0]['first_name'] . ' ' . $info[0]['last_name'];
         $this->email = $info[0]['email'];
+        $this->password = $info[0]['password'];
     }
     
     public function get_organizations() {
@@ -75,54 +81,46 @@ WHERE membership.uid = :uid';
         return $organizations;
     }
     
-    public static function add($email, $password, $first_name, $last_name) {
-        if($email == "" || $password == "" || $first_name == "" || $last_name == "") {
-            return false;
-        }
-        
-        global $db;
-        if(!self::check_username($db, $email)) {
+    public function save() {
+        if($this->email == "" || $this->password == "" || $this->first_name == "" || $this->last_name == "") {
             return FALSE;
         }
         
-        $query = 'INSERT INTO User (email, password, first_name, last_name) VALUES (:email, :password, :first_name, :last_name)';
-        
-        $params = array(
-            'email' => $email,
-            'password' => password($password),
-            'first_name' => $first_name,
-            'last_name' => $last_name
-        );
-        
-        $db->query($query, $params);
-        return TRUE;
-    }  
-    
-    public function update($password, $first_name, $last_name) {
-        if($password == "" || $first_name == "" || $last_name == "") {
-            return FALSE;
+        // If email doesn't exist
+        if($this->check_username()) {
+            $query = 'INSERT INTO User (email, password, first_name, last_name) VALUES (:email, :password, :first_name, :last_name)';
+
+            $params = array(
+                'email' => $this->email,
+                'password' => $this->password,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name
+            );
+
+            $this->db->query($query, $params);
+            $this->id = $this->db->last_id();
         }
         
-        global $db;
-        
-        $query = 'UPDATE User SET password = :password, first_name = :first_name, last_name = :last_name WHERE uid = :uid';
-        
-        $params = array(
-            'uid' => $this->id,
-            'password' => password($password),
-            'first_name' => $first_name,
-            'last_name' => $last_name
-        );
-        
-        $db->query($query, $params);
-        
-        return TRUE;
+        // update user
+        else {
+            $query = 'UPDATE User SET password = :password, first_name = :first_name, last_name = :last_name WHERE uid = :uid';
+
+            $params = array(
+                'uid' => $this->id,
+                'password' => $this->password,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name
+            );
+
+            $this->db->query($query, $params);    
+        }
+        return TRUE;    
     }
     
-    private static function check_username($db, $email) {
+    public function check_username() {
         $query = 'SELECT * FROM User WHERE email = :email LIMIT 1';
-        $params = array('email' => $email);
-        $existing = $db->query($query, $params);
+        $params = array('email' => $this->email);
+        $existing = $this->db->query($query, $params);
         
         if(!empty($existing)) {
             return FALSE;

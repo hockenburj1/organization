@@ -15,11 +15,14 @@ if(isset($_SESSION['user'])) {
 
         //Update form submitted
         if (!empty($_POST)) {
-            $password = post('register-password');
-            $first_name = post('register-first-name');
-            $last_name = post('register-last-name');
+            if( !empty(post('register-password')) ) {
+                $user->password = password(post('register-password'));
+            }
             
-            if($user->update($password, $first_name, $last_name)) {
+            $user->first_name = post('register-first-name');
+            $user->last_name = post('register-last-name');
+            
+            if($user->save()) {
                 header('location: dashboard.php');
             }
             
@@ -64,17 +67,17 @@ if($action == 'login') {
 
 //if action is registration
 if($action == 'register') {
+    $new_user = new User($db);
+    
     //Registration form submitted
     if (!empty($_POST)) {
-        $email = post('register-user');
-        $password = post('register-password');
-        $first_name = post('register-first-name');
-        $last_name = post('register-last-name');
+        $new_user->email = post('register-user');
+        $new_user->password = password(post('register-password'));
+        $new_user->first_name = post('register-first-name');
+        $new_user->last_name = post('register-last-name');
         
-        if(User::add($email, $password, $first_name, $last_name)) {
-            $login = new Login($db);
-            $attempt = $login->attempt($email, $password);
-            $_SESSION['user'] = $attempt;
+        if($new_user->save()) {
+            //$_SESSION['user'] = $new_user->id;
             header("location: dashboard.php"); 
         }
         

@@ -10,8 +10,7 @@ $parent_params = array('term' => "$term%");
 $parents = $db->query($parent_query, $parent_params);
 
 foreach ($parents as $parent) {
-    //$parent_list[] = array('id' => $parent['oid'], 'value' => $parent['name']);
-    $parent_list[] = $parent['name'];
+    $parent_list[] = array('id' => $parent['oid'], 'value' => $parent['name']);
 }
 
 echo json_encode($parent_list);

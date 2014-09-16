@@ -24,5 +24,9 @@ class MySQLiDB extends Database {
         
         return $resultset;
     }
+    
+    public function last_id() {
+        return $this->con->lastInsertId();
+    }
 }
 ?>

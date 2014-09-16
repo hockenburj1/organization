@@ -20,7 +20,7 @@ if(empty($organization)) {
             $new_organization->requestable = post('request');
             
             if($new_organization->save()) {
-                header('location: organizations.php');
+                header('location: organizations.php?food=good');
             }
             
             else {

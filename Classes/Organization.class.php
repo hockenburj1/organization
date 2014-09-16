@@ -166,7 +166,6 @@ Class Organization {
             'description' => $this->description,
             'parent_oid' => $this->parent,
             'membership_requestable' => $this->requestable,
-            'oid' => $this->id
         );
         
         // If abbreviation doesn't exist
@@ -181,7 +180,8 @@ Class Organization {
         
         // update organization
         else {
-            $query = 'UPDATE Organization SET name = :name, abbreviation = :abbreviation, description = :description, parent_oid = :parent_oid, membership_requestable = :membership_requestable WHERE oid = :oid';
+            $oid = $this->id;
+            $query = "UPDATE Organization SET name = :name, abbreviation = :abbreviation, description = :description, parent_oid = :parent_oid, membership_requestable = :membership_requestable WHERE oid = $oid";
             $this->db->query($query, $params);    
         }
         return TRUE;    

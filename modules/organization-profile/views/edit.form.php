@@ -1,4 +1,4 @@
-<h1>Add Organization</h1>
+<h1>Edit Organization</h1>
 <div class="form">
     <div>
     <?php if(isset($error)) : ?>
@@ -7,26 +7,26 @@
     </div>
     <form method="POST" type="multipart">
     <p>
-        <label>Name:</label><input type="text" name="name" placeholder="Kentucky Phi Beta Lambda" value="<?php echo post('name') ?>"/>
+        <label>Name:</label><input type="text" name="name" value="<?php echo $organization->name ?>"/>
     </p>
     <p>
-        <label>Abbreviation:</label><input type="text" name="abbreviation" value="<?php echo post('abbreviation') ?>"/>
+        <label>Abbreviation:</label><input type="text" name="abbreviation" value="<?php echo $organization->name ?>"/>
     </p>
     <p>
-        <label>Description:</label><textarea name="description" rows="5"><?php echo post('description') ?></textarea>
+        <label>Description:</label><textarea name="description" rows="5"><?php echo $organization->description ?></textarea>
     </p>
     <p>
         <label>Image/Logo:</label><input name="logo" type="file" />
     </p>
     <p>
-        <label>Parent:</label><input type="text" name="parent" id="parent-name" value="<?php echo post('parent-name') ?>"/>
+        <label>Parent:</label><input type="text" name="parent" id="parent-name" value="<?php if(!empty($organization->parents)) { echo $organization->parents[0]->name; } ?>"/>
     </p>
     <p>
         <input name="request" type="checkbox" value="TRUE" <?php if(empty($_POST) || post('request') == 'TRUE') {echo "checked";} ?>/> I would like this organization to appear in the search results.
     </p>
-    <input type="hidden" name="parent_id" id="parent_id" value="<?php echo post('parent_id') ?>"/>
+    <input type="hidden" name="parent_id" id="parent_id" value="<?php echo $organization->parent ?>"/>
     <p>
-        <input type="submit" class="button" value="Add Organization"/>
+        <input type="submit" class="button" value="Edit Organization"/>
     </p>
     </form>
 </div>

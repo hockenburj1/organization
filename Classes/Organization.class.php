@@ -156,7 +156,7 @@ Class Organization {
     }
     
     public function save() {
-        if($this->name == "" || $this->abbreviation == "" || $this->description == "") {
+        if($this->name == "" || $this->abbreviation == "" || $this->description == "" || $this->parent == $this->id) {
             return FALSE;
         }
         
@@ -168,8 +168,8 @@ Class Organization {
             'membership_requestable' => $this->requestable,
         );
         
-        // If abbreviation doesn't exist
-        if($this->check_abbreviation()) {
+        // If no id assigned
+        if($this->id == 0) {
             $query = 'INSERT INTO Organization (name, abbreviation, description, parent_oid, membership_requestable) VALUES (:name, :abbreviation, :description, :parent_oid, :membership_requestable)';
             $this->db->query($query, $params);
             $this->id = $this->db->last_id();
@@ -180,11 +180,52 @@ Class Organization {
         
         // update organization
         else {
+            $updated = $this->update_parent_record();
             $oid = $this->id;
             $query = "UPDATE Organization SET name = :name, abbreviation = :abbreviation, description = :description, parent_oid = :parent_oid, membership_requestable = :membership_requestable WHERE oid = $oid";
-            $this->db->query($query, $params);    
+            $this->db->query($query, $params);   
+            
+            if($updated) {
+                $this->send_parent_request();
+            }
         }
         return TRUE;    
+    }
+    
+    private function send_parent_request() {
+        $query = "INSERT INTO relationship_request (oid, parent_oid) VALUES(:oid, :parent_oid)";
+        $params = array(
+            'oid' => $this->id,
+            'parent_oid' => $this->parent
+        );
+        $this->db->query($query, $params);
+    }
+    
+    private function update_parent_record() {
+        // Query current data
+        $query = "SELECT parent_oid FROM Organization WHERE oid = $this->id";
+        $result = $this->db->query($query);
+        
+        // If no parent or equals new parent return FALSE
+        if(empty($result) || $result[0]['parent_oid'] == $this->parent) {
+            return false;
+        }
+        // ELSE return TRUE delete requests and reset organization approved
+        else {
+            $query = "DELETE FROM relationship_request WHERE oid = :oid AND parent_oid = :parent_oid";
+            $params = array(
+                'oid' => $this->id,
+                'parent_oid' => $result[0]['parent_oid']
+            );
+            $this->db->query($query, $params);
+            
+            $query = "UPDATE Organization SET confirmed_parent = 'FALSE' WHERE oid = :oid";
+            $params = array(
+                'oid' => $this->id
+            );
+            $this->db->query($query, $params);
+        }
+        return TRUE;
     }
     
     public function check_abbreviation() {

@@ -9,6 +9,10 @@
     <p><a href="organization-profile.php?org=<?php echo $organization->abbreviation ?>&action=request" class="button">Request Membership</a></p>
     
     <br />
+    
+    <?php if(!empty($user) && $user->has_permission($organization->id, 'edit_organization')) : ?>
+        <a href="organization.php?org=<?php echo $organization->id ?>&action=edit_organization">Edit Organization</a>
+    <?php endif; ?>
 </div>
 
 

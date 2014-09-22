@@ -9,7 +9,7 @@ if (!empty($_POST)) {
     
     // if no tag provided search against keywords only
     if(empty($tag)) {
-        $query = "SELECT * FROM Organization WHERE name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword ORDER BY name";
+        $query = "SELECT * FROM Organization WHERE (name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword) AND membership_requestable = 'TRUE' ORDER BY name";
         $params = array('keyword' => "%$keyword%");
     }
     
@@ -22,7 +22,7 @@ if (!empty($_POST)) {
         
         // if tag wasn't found in selection
         if(empty($tag_result)) {
-            $query = "SELECT * FROM Organization WHERE name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword ORDER BY name";
+            $query = "SELECT * FROM Organization WHERE (name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword) AND membership_requestable = 'TRUE' ORDER BY name";
             $params = array('keyword' => $keyword);
         }
         
@@ -33,7 +33,7 @@ if (!empty($_POST)) {
                 SELECT organization.oid, organization.name, organization.abbreviation, organization.description
                 FROM organization
                 JOIN tag_membership as tm ON organization.oid = tm.oid
-                WHERE tm.tid = :tag_id && (name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword)
+                WHERE tm.tid = :tag_id && (name LIKE :keyword OR abbreviation LIKE :keyword OR description LIKE :keyword) AND membership_requestable = 'TRUE'
                 ORDER BY name";
             $params = array('tag_id' => $tag_id, 'keyword' => "%$keyword%");
         }

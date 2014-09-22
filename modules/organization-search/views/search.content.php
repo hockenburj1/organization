@@ -25,7 +25,7 @@
     <?php foreach($organizations as $organization) : ?>
         <div class="organization_search_result">
             <div class="organization_search_result_title">
-                <h2><a href="organization.php?org=<?php echo $organization->abbreviation ?>"><?php echo $organization->name ?></a></h2>
+                <h2><a href="organization.php?org=<?php echo $organization->id ?>"><?php echo $organization->name ?></a></h2>
                 <span><?php echo $organization->description ?></span>
                 <span>
                     <?php foreach($organization->tags as $tag) : ?>

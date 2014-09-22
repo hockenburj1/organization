@@ -1,5 +1,5 @@
 <?php
-$abbreviation = get('org');
+$org_id = empty(get('org')) ? '0' : get('org');
 $action = get('action');
 $user = session('user');
 
@@ -7,20 +7,21 @@ if(!empty($user)) {
     $user = new User($db, $user);
 }
 
-$organization = Organization::search_abbreviation($abbreviation);
+//$organization = Organization::search_abbreviation($abbreviation);
+$organization = new Organization($db, $org_id);
 
-if(empty($organization)) {
+// If creating an organization
+if($organization->id == 0) {
     if($action == 'add_organization' && !empty($user)) {
-        if(!empty($_POST)) {
-            $new_organization = new Organization($db);
-            $new_organization->name = post('name');
-            $new_organization->abbreviation = post('abbreviation');
-            $new_organization->description = post('description');
-            $new_organization->parent = post('parent_id');
-            $new_organization->requestable = post('request');
+        if(!empty(post('name'))) {
+            $organization->name = post('name');
+            $organization->abbreviation = post('abbreviation');
+            $organization->description = post('description');
+            $organization->parent = post('parent_id');
+            $organization->requestable = empty(post('request')) ? 'FALSE' : 'TRUE';
             
-            if($new_organization->save()) {
-                header('location: organizations.php?food=good');
+            if($organization->save()) {
+                header("location: organizations.php");
             }
             
             else {
@@ -30,7 +31,7 @@ if(empty($organization)) {
         include($module_location . 'views/add.form.php'); 
     }
     else {
-        header("location: search.php");    
+        //header("location: search.php");    
     }
 }
 
@@ -45,14 +46,13 @@ if (!empty($organization)) {
         switch ($action) {
             case 'edit_organization':
                 if(!empty($_POST)) {
-                    $new_organization = new Organization($db, $organization->id);
-                    $new_organization->name = post('name');
-                    $new_organization->abbreviation = post('abbreviation');
-                    $new_organization->description = post('description');
-                    $new_organization->parent = post('parent_id');
-                    $new_organization->requestable = post('request');
+                    $organization->name = post('name');
+                    $organization->abbreviation = post('abbreviation');
+                    $organization->description = post('description');
+                    $organization->parent = post('parent_id');
+                    $organization->requestable = post('request');
 
-                    if($new_organization->save()) {
+                    if($organization->save()) {
                         header('location: organizations.php');
                     }
 
@@ -60,7 +60,7 @@ if (!empty($organization)) {
                         $error = 'An error occured while updating the organization.';
                     }
                 }
-                include($module_location . 'views/add.form.php');
+                include($module_location . 'views/edit.form.php');
                 break;
             
             case 'request_info':

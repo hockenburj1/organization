@@ -37,7 +37,7 @@ if($organization->id == 0) {
 
 
 // check permissions if organization permissions are required
-if (!empty($organization)) {    
+if ($organization->id != 0) {    
     if(empty($user) || !$user->has_permission($organization->id, $action) ) {
         include($module_location . 'views/profile.content.php');
     }
@@ -69,6 +69,21 @@ if (!empty($organization)) {
 
             case 'delete_organization':
                 include($module_location . 'views/delete.form.php');
+                break;
+            case 'manage_requests':
+                $type = post('type');
+                $decision = post('decision');
+                $member_id = post('member_id');
+                echo $type;
+                if($type == 'member' && !empty($decision) && !empty($member_id)) {
+                    if($decision == 'approve') {
+                        echo 'user is added.';
+                    }
+                }
+                if($type == 'parent' && !empty($decision)&& !empty($member_id)) {
+                    
+                } 
+                include($module_location . 'views/requests.content.php');
                 break;
         }
     }

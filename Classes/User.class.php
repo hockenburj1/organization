@@ -22,19 +22,17 @@ Class User {
     }
     
     private function set_permissions() {
-        $query = "SELECT role.title, role_membership.oid, Group_Concat(permission.value SEPARATOR ',') as permissions
-from user_role
-JOIN role on role.rid = user_role.rid
-JOIN role_membership on role_membership.rid = role.rid
-JOIN role_permission on role_permission.rid = role.rid
-JOIN permission on permission.pid = role_permission.pid
-WHERE user_role.uid = :uid
-GROUP BY oid";
+        $query = "SELECT user_role.oid, permission.value
+FROM user_role
+join role on role.rid = user_role.rid
+join role_permission on role_permission.rid = role.rid
+join permission on permission.pid = role_permission.pid
+where user_role.uid = 1";
         $params = array('uid' => $this->id);
         $results = $this->db->query($query, $params);
         
         foreach($results as $row) {
-            $this->roles[$row['oid']] = explode(',', $row['permissions']);
+            $this->roles[$row['oid']][] = $row['value'];
         }
 
     }

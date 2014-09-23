@@ -155,8 +155,31 @@ Class Organization {
         }
     }
     
+    public static function exists($parent_oid) {
+        global $db;
+        $query = "SELECT * FROM organization WHERE abbreviation = :abbreviation LIMIT 1";
+        $params = array('abbreviation' => $abbreviation);
+        $result = $db->query($query, $params);
+        
+        if(!empty($result)) {
+            return TRUE;
+        }
+        else {
+            return FALSE;
+        }
+    }
+
+
     public function save() {
-        if($this->name == "" || $this->abbreviation == "" || $this->description == "" || $this->parent == $this->id) {
+        if($this->name == "" || $this->abbreviation == "" || $this->description == "") {
+            return FALSE;
+        }
+        
+        if (!is_numeric($this->parent) && $this->parent != '') {
+            return FALSE;
+        }
+        
+        if($this->parent == $this->id) {
             return FALSE;
         }
         
@@ -176,6 +199,9 @@ Class Organization {
             if(!$this->add_user(session('user'))) {
                 return false;
             }
+            if($this->parent != '' && $this->parent != $this->id) {
+                $this->send_parent_request();
+            }
         }
         
         // update organization
@@ -192,7 +218,7 @@ Class Organization {
         return TRUE;    
     }
     
-    private function send_parent_request() {
+    private function send_parent_request() {     
         $query = "INSERT INTO relationship_request (oid, parent_oid) VALUES(:oid, :parent_oid)";
         $params = array(
             'oid' => $this->id,
@@ -240,6 +266,11 @@ Class Organization {
         return TRUE;
     }
     
+    public function get_parent_requests() {
+        
+    }
+
+
     public function add_user($user_id) {
         if(!User::exists($user_id)) {
             return false;
@@ -262,8 +293,9 @@ Class Organization {
         $this->db->query($query, $params);
         
         // Assign admin role to user 
-        $query = 'INSERT INTO user_role (uid, rid) VALUES(:uid, :rid)';
+        $query = 'INSERT INTO user_role (uid, rid, oid) VALUES(:uid, :rid, :oid)';
         $params = array(
+                'oid' => $this->id,
                 'uid' => $user_id,
                 'rid' => '1',
         );

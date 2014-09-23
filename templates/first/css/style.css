@@ -156,6 +156,10 @@ h1 {
     margin-bottom: 5px;
 }
 
+h3.accordion {
+    margin-bottom: 0;
+}
+
 input {
     margin: 0;
 }
@@ -219,6 +223,22 @@ a[class=button] {
 	padding: 8px;
 }
 
+.request td {
+    padding: 5px 20px 5px 0;
+}
+
+.request td.request-content {
+    width: 100%;
+}
+
+.request td.approve_request a {
+    color: green !important;
+}
+
+.request td.deny_request a {
+    color: red !important;
+}
+
 
 
 
@@ -243,8 +263,7 @@ a[class=button] {
         width: 90%;
         padding: 5px 5%;
     }
-    
-    
+   
 }
 
 @media (max-width: 320px) {

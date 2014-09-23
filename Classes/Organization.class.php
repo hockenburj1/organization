@@ -267,7 +267,18 @@ Class Organization {
     }
     
     public function get_parent_requests() {
+        $query = 'SELECT oid
+            FROM relationship_request
+            WHERE relationship_request.parent_oid  = 22;';
+        $params = array('parent_oid' => $this->id);
+        $results = $this->db->query($query, $params);
         
+        $organizations = array();
+        foreach($results as $result) {
+            $organizations[] = new Organization($this->db, $result['oid']);
+        }
+        
+        return $organizations;
     }
 
 
@@ -300,6 +311,42 @@ Class Organization {
                 'rid' => '1',
         );
         $this->db->query($query, $params); 
+        return true;
+    }
+    
+    public function parent_request($child_id, $decision) {
+        $query = "SELECT *
+            FROM relationship_request
+            WHERE parent_oid = :oid AND oid = :child_id";
+        $params = array(
+                'oid' => $this->id,
+                'child_id' => $child_id
+        );
+        $result = $this->db->query($query, $params);
+        
+        if(empty($result)) {
+            return false;
+        }
+        
+        //delete request
+        $query = "DELETE FROM relationship_request
+            WHERE parent_oid = :oid AND oid = :child_id";
+        $params = array(
+                'oid' => $this->id,
+                'child_id' => $child_id
+        );
+        $result = $this->db->query($query, $params);
+        
+        if($decision == 'approve') {
+            $query = "UPDATE organization
+                SET confirmed_parent = TRUE
+                WHERE oid = :child_id";
+            $params = array(
+                    'child_id' => $child_id
+            );
+            $result = $this->db->query($query, $params);
+        }
+        
         return true;
     }
 }

@@ -71,18 +71,19 @@ if ($organization->id != 0) {
                 include($module_location . 'views/delete.form.php');
                 break;
             case 'manage_requests':
-                $type = post('type');
-                $decision = post('decision');
-                $member_id = post('member_id');
-                echo $type;
+                $type = get('type');
+                $decision = get('decision');
+                $member_id = get('member_id');
                 if($type == 'member' && !empty($decision) && !empty($member_id)) {
-                    if($decision == 'approve') {
-                        echo 'user is added.';
+                    if($organization->parent_request($member_id, $decision)) {
+                        echo 'parent updated';
                     }
                 }
                 if($type == 'parent' && !empty($decision)&& !empty($member_id)) {
                     
                 } 
+                
+                $parent_requesters = $organization->get_parent_requests();
                 include($module_location . 'views/requests.content.php');
                 break;
         }

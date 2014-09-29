@@ -75,9 +75,7 @@ if ($organization->id != 0) {
                 $decision = get('decision');
                 $member_id = get('member_id');
                 if($type == 'member' && !empty($decision) && !empty($member_id)) {
-                    if($organization->parent_request($member_id, $decision)) {
-                        echo 'parent updated';
-                    }
+                    $organization->parent_request($member_id, $decision);
                 }
                 if($type == 'parent' && !empty($decision)&& !empty($member_id)) {
                     

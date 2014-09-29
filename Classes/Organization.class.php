@@ -62,13 +62,13 @@ Class Organization {
     }
     
     function get_parent($organization_id) {
-        $result = $this->db->query("SELECT parent_oid FROM Organization WHERE oid = $organization_id");
-        $parent_id = $result[0]['parent_oid'];
+        $result = $this->db->query("SELECT parent_oid FROM Organization WHERE oid = $organization_id AND confirmed_parent = TRUE");
         
-        if(empty($parent_id)) {
+        
+        if(empty($result)) {
             return "";
         }
-        
+        $parent_id = $result[0]['parent_oid'];
         $result = $this->db->query("SELECT oid, name FROM Organization WHERE oid = $parent_id");
         return $result;
     }

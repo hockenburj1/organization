@@ -23,7 +23,7 @@
             <tr class="request">
                 <td class='request-content'><a href="organization.php?org=<?php echo $requester->id ?>"><?php echo $requester->name ?></a></td> 
                 <td class='approve_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=approve&member_id=<?php echo $requester->id ?>'>Approve</a></td> 
-                <td class='deny_request'><a href='#'>Deny</a></td>
+                <td class='deny_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=deny&member_id=<?php echo $requester->id ?>'>Deny</a></td>
             </tr>
             <?php endforeach; ?>
         </table>

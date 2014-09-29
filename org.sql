@@ -61,7 +61,7 @@ CREATE TABLE `membership` (
   KEY `user_idx` (`uid`),
   CONSTRAINT `organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,8 +70,36 @@ CREATE TABLE `membership` (
 
 LOCK TABLES `membership` WRITE;
 /*!40000 ALTER TABLE `membership` DISABLE KEYS */;
-INSERT INTO `membership` VALUES (1,2,1),(8,8,1),(10,10,1),(17,17,1);
+INSERT INTO `membership` VALUES (20,20,1),(21,21,1),(22,22,1),(23,23,1),(24,24,1),(25,25,1);
 /*!40000 ALTER TABLE `membership` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `membership_request`
+--
+
+DROP TABLE IF EXISTS `membership_request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `membership_request` (
+  `mrid` int(11) NOT NULL AUTO_INCREMENT,
+  `oid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`mrid`),
+  KEY `mr_user_idx` (`uid`),
+  KEY `mr_organization_idx` (`oid`),
+  CONSTRAINT `mr_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `mr_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `membership_request`
+--
+
+LOCK TABLES `membership_request` WRITE;
+/*!40000 ALTER TABLE `membership_request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `membership_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -92,7 +120,7 @@ CREATE TABLE `organization` (
   PRIMARY KEY (`oid`),
   UNIQUE KEY `oid_UNIQUE` (`oid`),
   KEY `pa_idx` (`parent_oid`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +129,7 @@ CREATE TABLE `organization` (
 
 LOCK TABLES `organization` WRITE;
 /*!40000 ALTER TABLE `organization` DISABLE KEYS */;
-INSERT INTO `organization` VALUES (1,'Demo','demo','Business fraternity',0,'FALSE','FALSE'),(2,'Testing','Testing','This is the new description',17,'TRUE','FALSE'),(8,'Student Teaching','ST','This is a great organization for students interested in student teaching opportunities.',0,'FALSE','FALSE'),(10,'Sample Organization','SOO','This is the description of a sample organization that will be added into the system. This account is meant for testing.',0,'FALSE','FALSE'),(17,'Testing 2','test2','This is the description of a sample organization that will be added into the system. This account is meant for testing.',0,'TRUE','FALSE');
+INSERT INTO `organization` VALUES (20,'Demo School','DS','This is a demo account to test some of the functionality that is existing up and to this point.',0,'TRUE','FALSE'),(21,'Jesse','jethit','this is a description',0,'TRUE','FALSE'),(22,'Testing 2','test2','This ios for testing',20,'TRUE','FALSE'),(23,'Testing 3','Testing 3','This ios for testing',22,'TRUE','1'),(24,'Test Org','Test Org','This is a test organization i am admining',22,'TRUE','1'),(25,'Tech','tech','technology is the center of the world',20,'TRUE','FALSE');
 /*!40000 ALTER TABLE `organization` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +145,7 @@ CREATE TABLE `permission` (
   `name` varchar(45) DEFAULT NULL,
   `value` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +154,7 @@ CREATE TABLE `permission` (
 
 LOCK TABLES `permission` WRITE;
 /*!40000 ALTER TABLE `permission` DISABLE KEYS */;
-INSERT INTO `permission` VALUES (1,'Add Organization','add_organization'),(2,'Edit Organization','edit_organization');
+INSERT INTO `permission` VALUES (1,'Add Organization','add_organization'),(2,'Edit Organization','edit_organization'),(3,'Manage Requests','manage_requests');
 /*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,9 +172,9 @@ CREATE TABLE `relationship_request` (
   PRIMARY KEY (`rrid`),
   KEY `rr_parent_oid_idx` (`parent_oid`),
   KEY `rr_oid_idx` (`oid`),
-  CONSTRAINT `rr_parent_oid` FOREIGN KEY (`parent_oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `rr_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  CONSTRAINT `rr_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `rr_parent_oid` FOREIGN KEY (`parent_oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +183,7 @@ CREATE TABLE `relationship_request` (
 
 LOCK TABLES `relationship_request` WRITE;
 /*!40000 ALTER TABLE `relationship_request` DISABLE KEYS */;
-INSERT INTO `relationship_request` VALUES (3,17,2);
+INSERT INTO `relationship_request` VALUES (4,20,22),(8,20,25);
 /*!40000 ALTER TABLE `relationship_request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +229,7 @@ CREATE TABLE `role_membership` (
   KEY `role_idx` (`rid`),
   CONSTRAINT `rm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `rm_role` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +238,7 @@ CREATE TABLE `role_membership` (
 
 LOCK TABLES `role_membership` WRITE;
 /*!40000 ALTER TABLE `role_membership` DISABLE KEYS */;
-INSERT INTO `role_membership` VALUES (1,2,1),(8,8,1),(10,10,1),(17,17,1);
+INSERT INTO `role_membership` VALUES (20,20,1),(21,21,1),(22,22,1),(23,23,1),(24,24,1),(25,25,1);
 /*!40000 ALTER TABLE `role_membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,7 +258,7 @@ CREATE TABLE `role_permission` (
   KEY `rp_rid_idx` (`rid`),
   CONSTRAINT `rp_pid` FOREIGN KEY (`pid`) REFERENCES `permission` (`pid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `rp_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,7 +267,7 @@ CREATE TABLE `role_permission` (
 
 LOCK TABLES `role_permission` WRITE;
 /*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
-INSERT INTO `role_permission` VALUES (1,1,1),(1,2,2);
+INSERT INTO `role_permission` VALUES (1,1,1),(1,2,2),(1,3,3);
 /*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -283,7 +311,7 @@ CREATE TABLE `tag_membership` (
   KEY `tm_organization_idx` (`oid`),
   CONSTRAINT `tm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tm_tag` FOREIGN KEY (`tid`) REFERENCES `tag` (`tid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +320,7 @@ CREATE TABLE `tag_membership` (
 
 LOCK TABLES `tag_membership` WRITE;
 /*!40000 ALTER TABLE `tag_membership` DISABLE KEYS */;
-INSERT INTO `tag_membership` VALUES (1,5,2),(2,4,1);
+INSERT INTO `tag_membership` VALUES (1,5,23);
 /*!40000 ALTER TABLE `tag_membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,12 +363,15 @@ CREATE TABLE `user_role` (
   `urid` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) DEFAULT NULL,
   `rid` int(11) DEFAULT NULL,
+  `oid` int(11) DEFAULT NULL,
   PRIMARY KEY (`urid`),
   KEY `ur_uid_idx` (`uid`),
   KEY `ur_rid_idx` (`rid`),
+  KEY `ur_oid_idx` (`oid`),
+  CONSTRAINT `ur_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `ur_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `ur_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,7 +380,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES (1,2,1),(2,1,1),(3,1,1),(4,1,1),(5,1,1),(6,1,1),(7,1,1),(8,1,1),(9,1,1),(10,1,1),(11,1,1),(12,1,1),(13,1,1),(14,1,1),(15,1,1);
+INSERT INTO `user_role` VALUES (18,1,1,20),(19,1,1,21),(20,1,1,22),(21,1,1,23),(22,1,1,24),(23,1,1,25);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -362,4 +393,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-09-22 12:20:23
+-- Dump completed on 2014-09-29 19:01:19

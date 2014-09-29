@@ -10,10 +10,19 @@
 <div id="accordion">
     <h3 class="accordion">Member Requests</h3>
     <div>
-        Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-    ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-    amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-    odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+        <?php if(!empty($member_requesters)) : ?>
+        <table>
+            <?php foreach ($member_requesters as $requester) : ?>
+            <tr class="request">
+                <td class='request-content'><a href="organization.php?org=<?php echo $requester->id ?>"><?php echo $requester->name ?></a></td> 
+                <td class='approve_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=approve&member_id=<?php echo $requester->id ?>'>Approve</a></td> 
+                <td class='deny_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=deny&member_id=<?php echo $requester->id ?>'>Deny</a></td>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php else : ?>
+                <span>No requests are pending.</span>
+        <?php endif; ?>
     </div>
     <h3 class="accordion">Parent Requests</h3>
     <div>
@@ -22,8 +31,8 @@
             <?php foreach ($parent_requesters as $requester) : ?>
             <tr class="request">
                 <td class='request-content'><a href="organization.php?org=<?php echo $requester->id ?>"><?php echo $requester->name ?></a></td> 
-                <td class='approve_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=approve&member_id=<?php echo $requester->id ?>'>Approve</a></td> 
-                <td class='deny_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=deny&member_id=<?php echo $requester->id ?>'>Deny</a></td>
+                <td class='approve_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=parent&decision=approve&member_id=<?php echo $requester->id ?>'>Approve</a></td> 
+                <td class='deny_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=parent&decision=deny&member_id=<?php echo $requester->id ?>'>Deny</a></td>
             </tr>
             <?php endforeach; ?>
         </table>

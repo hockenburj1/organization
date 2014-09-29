@@ -75,13 +75,14 @@ if ($organization->id != 0) {
                 $decision = get('decision');
                 $member_id = get('member_id');
                 if($type == 'member' && !empty($decision) && !empty($member_id)) {
-                    $organization->parent_request($member_id, $decision);
+                    $organization->member_request($member_id, $decision); 
                 }
                 if($type == 'parent' && !empty($decision)&& !empty($member_id)) {
-                    
+                    $organization->parent_request($member_id, $decision);    
                 } 
                 
                 $parent_requesters = $organization->get_parent_requests();
+                $member_requesters = $organization->get_member_requests();
                 include($module_location . 'views/requests.content.php');
                 break;
         }

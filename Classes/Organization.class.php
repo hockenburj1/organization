@@ -269,7 +269,7 @@ Class Organization {
     public function get_parent_requests() {
         $query = 'SELECT oid
             FROM relationship_request
-            WHERE relationship_request.parent_oid  = 22;';
+            WHERE relationship_request.parent_oid  = :parent_oid;';
         $params = array('parent_oid' => $this->id);
         $results = $this->db->query($query, $params);
         
@@ -279,6 +279,21 @@ Class Organization {
         }
         
         return $organizations;
+    }
+    
+    public function get_member_requests() {
+        $query = 'SELECT uid
+            FROM membership_request
+            WHERE oid = :oid;';
+        $params = array('oid' => $this->id);
+        $results = $this->db->query($query, $params);
+        
+        $users = array();
+        foreach($results as $result) {
+            $users[] = new User($this->db, $result['uid']);
+        }
+        
+        return $users;
     }
 
 
@@ -345,6 +360,41 @@ Class Organization {
                     'child_id' => $child_id
             );
             $result = $this->db->query($query, $params);
+        }
+        
+        return true;
+    }
+    
+    public function member_request($member_id, $decision) {
+        $query = "SELECT *
+            FROM membership_request
+            WHERE oid = :oid AND uid = :uid";
+        $params = array(
+                'oid' => $this->id,
+                'uid' => $member_id
+        );
+        $result = $this->db->query($query, $params);
+        
+        if(empty($result)) {
+            return false;
+        }
+        
+        //delete request
+        $query = "DELETE FROM membership_request
+            WHERE oid = :oid AND uid = :uid";
+        $params = array(
+                'oid' => $this->id,
+                'uid' => $member_id
+        );
+        $result = $this->db->query($query, $params);
+        
+        if($decision == 'approve') {
+            $query = 'INSERT INTO membership (oid, uid) VALUES(:oid, :uid)';
+            $params = array(
+                'oid' => $this->id,
+                'uid' => $member_id,
+            );
+            $this->db->query($query, $params); 
         }
         
         return true;

@@ -399,6 +399,7 @@ Class Organization {
         
         return true;
     }
+    
 }
 
 ?>

@@ -1,19 +1,6 @@
-<h1>Request Updates</h1>
+<h1>Membership Request</h1>
 <div class="form">
-    <form method="POST">
-    <p>
-        <label>Name: </label><input type="text" />
-    </p>
-    <p>
-        <label>E-Mail: </label><input type="text" />
-    </p>
-    <p>
-        <input type="checkbox"/> I would like to receive organization updates.
-    </p>
-    <p>
-        <input type="submit" class="button" value="Request Updates"/>
-    </p>
-    </form>
+    
 </div>
 <div class="form-extra">
     <h3>Disclaimer</h3>

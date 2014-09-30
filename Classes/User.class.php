@@ -139,6 +139,42 @@ WHERE membership.uid = :uid';
         
         return TRUE;    
     }
+    
+    public function send_membership_request($oid) {     
+        //Check if request already exists
+        $query = "SELECT oid FROM membership_request WHERE oid = :oid && uid = :uid";
+        $params = array(
+            'uid' => $this->id,
+            'oid' => $oid
+        );
+        $result = $this->db->query($query, $params);
+        
+        if(empty($result)) {
+            return FALSE;
+        }
+        
+        $query = "INSERT INTO membership_request (oid, uid) VALUES(:oid, :uid)";
+        $params = array(
+            'uid' => $this->id,
+            'oid' => $oid
+        );
+        $this->db->query($query, $params);
+    }
+    
+    public function is_member($oid) {
+        $query = "SELECT oid FROM membership WHERE oid = :oid && uid = :uid";
+        $params = array(
+            'uid' => $this->id,
+            'oid' => $oid
+        );
+        $result = $this->db->query($query, $params);
+        
+        if(empty($result)) {
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
 }
 
     

@@ -31,14 +31,20 @@ if($organization->id == 0) {
         include($module_location . 'views/add.form.php'); 
     }
     else {
-        //header("location: search.php");    
+        header("location: search.php");    
     }
 }
 
 
 // check permissions if organization permissions are required
-if ($organization->id != 0) {    
-    if(empty($user) || !$user->has_permission($organization->id, $action) ) {
+if ($organization->id != 0) {
+    if(!empty($user) && $action == 'request_membership') {
+        if(!$user->is_member($organization->id)) {
+            $user->send_membership_request($organization->id);    
+        }     
+    }
+    
+    elseif(empty($user) || !$user->has_permission($organization->id, $action) ) {
         include($module_location . 'views/profile.content.php');
     }
     

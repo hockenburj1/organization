@@ -17,9 +17,7 @@
                     <?php endif;?>
                 </span> 
             </div>
-            <div id="menu">
-                <a href="">Organizations </a> | <a href="">Members</a> | <a href="">Documents</a> | <a href="">Events</a>
-            </div>
+            
             <div id="info">
                 <?php if(isset($content)) echo $content ?>
             </div>

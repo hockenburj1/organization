@@ -11,7 +11,7 @@ root {
 }
 
 body {
-	background-image:url('../images/dark_wood.png');
+	/*background-image:url('../images/dark_wood.png');*/
 }
 
 .title {
@@ -42,30 +42,32 @@ a {
 }
 
 #info {
-    padding: 20px 40px;
+    padding: 20px;
     overflow: auto;
 	background-color: white;
-    -moz-box-shadow:    3px 3px 29px 6px black;
-    -webkit-box-shadow: 3px 3px 29px 6px black;
-    box-shadow:         3px 3px 29px 6px black;
+    -webkit-box-shadow: 1px 1px 15px 0px rgba(50, 50, 50, 0.39);
+	-moz-box-shadow:    1px 1px 15px 0px rgba(50, 50, 50, 0.39);
+	box-shadow:         1px 1px 15px 0px rgba(50, 50, 50, 0.39);
 	margin-top: 10px;
+	margin-bottom: 20px;
 	font-size:18px;
 }
 
 #header {
     padding: 15px 10px;
-    color: white;
+    color: black;
 }
 
 #header a {
-	color: white;
+	color: black;
 	text-decoration: none;
 }
 
 #logo a {
-    color: white;
+    color: darkblue;
     text-decoration: none;
 	font-size: 30px;
+	font-weight: bolder;
 }
 
 #logout {
@@ -84,7 +86,7 @@ a {
 }
 
 .search-box-main {
-    width: 40%;
+    width: 45%;
     margin-right: 5px; 
     margin-bottom: 5px;
 }
@@ -154,6 +156,7 @@ a {
 h1 {
     margin-top: 0px;
     margin-bottom: 5px;
+	color: darkblue;
 }
 
 h3.accordion {

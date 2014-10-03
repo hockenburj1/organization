@@ -1,17 +1,18 @@
-
-
-<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
-<script>
-        tinymce.init({
-            selector:'textarea',
-            plugins: "textcolor link textcolor",
-            toolbar: "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | link | forecolor |  fontselect | fontsizeselect | cut | copy | paste"
-        });
-</script>
-
 <img src="images/banner.jpg" width="100%"/>
 <br /><br />
 <h1>Welcome to Organization Management</h1>
+
+<div class="left-float">
+<div class="third">
+	<h3>Create and Join Organizations</h3>
+</div>
+<div class="third">
+	<h3>Management Features</h3>
+</div>
+<div class="third">
+	<h3>Create and Join Organizations</h3>
+</div>
+</div>
 
 <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,</p> 
 

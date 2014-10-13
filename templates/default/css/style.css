@@ -1,283 +1,49 @@
 /* 
     Document   : style
     Created on : May 22, 2014, 10:20:52 AM
-    Author     : hocke_000
+    Author     : nolenw1
     Description:
         Purpose of the stylesheet follows.
 */
 
-root { 
-    display: block;
-}
-
-body {
-	/*background-image:url('../images/dark_wood.png');*/
-}
-
-.title {
-    color: blue;
-    font-size: 25px;
-}
-
-.subtitle {
-    color: darkblue;
-}
-
-a {
-    color: black;
-}
-
-.organization-box {
-    border-bottom-color: black;
-    border-bottom-style: dotted;
-    border-bottom-width: 1px;
-    padding: 5px 1px;
-}
-
-#container {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    margin-top: 40px;
-}
-
-#info {
-    padding: 20px;
-    overflow: auto;
-	background-color: white;
-    -webkit-box-shadow: 1px 1px 15px 0px rgba(50, 50, 50, 0.39);
-	-moz-box-shadow:    1px 1px 15px 0px rgba(50, 50, 50, 0.39);
-	box-shadow:         1px 1px 15px 0px rgba(50, 50, 50, 0.39);
-	margin-top: 10px;
-	margin-bottom: 20px;
-	font-size:18px;
-}
-
-#header {
-    padding: 15px 10px;
-    color: black;
-}
-
-#header a {
-	color: black;
-	text-decoration: none;
-}
-
-#logo a {
-    color: darkblue;
-    text-decoration: none;
-	font-size: 30px;
-	font-weight: bolder;
-}
-
-#logout {
-    float: right;
-}
-
-.remove_link {
-    font-size: 12px;
-    color: lightgray;
-    padding-left: 10px;
-}
-
-.search-box {
-    height:35px;
-    padding: 0 5px;
-}
-
-.search-box-main {
-    width: 45%;
-    margin-right: 5px; 
-    margin-bottom: 5px;
-}
-
-.button {
-	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f7f4f7), color-stop(1, #dfdfdf) );
-	background:-moz-linear-gradient( center top, #f7f4f7 5%, #dfdfdf 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f7f4f7', endColorstr='#dfdfdf');
-	background-color:#f7f4f7;
-	-webkit-border-top-left-radius:6px;
-	-moz-border-radius-topleft:6px;
-	border-top-left-radius:6px;
-	-webkit-border-top-right-radius:6px;
-	-moz-border-radius-topright:6px;
-	border-top-right-radius:6px;
-	-webkit-border-bottom-right-radius:6px;
-	-moz-border-radius-bottomright:6px;
-	border-bottom-right-radius:6px;
-	-webkit-border-bottom-left-radius:6px;
-	-moz-border-radius-bottomleft:6px;
-	border-bottom-left-radius:6px;
-	text-indent:0;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	color:#000000;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	font-style:normal;
-	height:35px;
-	text-decoration:none;
-	text-align:center;
-	text-shadow:1px 1px 0px #ffffff;
-}
-.button:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #f7f4f7) );
-	background:-moz-linear-gradient( center top, #dfdfdf 5%, #f7f4f7 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#f7f4f7');
-	background-color:#dfdfdf;
-}
-
-.button:active {
-	position:relative;
-	top:1px;
-}
-
-#menu {
-    background-color: lightgray;
-	padding: 7px 20px;
-}
-
-#menu a {
-	font-size: 22px;
-	padding-right: 15px;
-	text-decoration: none;
-}
-
-.organization_search_result {
-    width: 40%;
-    float: left;
-    padding-right: 5%; 
-}
-
-h1 {
-    margin-top: 0px;
-    margin-bottom: 5px;
-	color: darkblue;
-}
-
-h3.accordion {
-    margin-bottom: 0;
-}
-
-input {
-    margin: 0;
-}
-
-.form, .primary {
-    width:60%;
-    margin-right: 5%;
-    float: left;
-}
-
-.form label {
-    width: 20%;
-    display: inline-block;
-    padding-bottom: 7px;
-    padding-right: 15px;
-    vertical-align: top;
-    padding-top: 4px;
-}
-
-.form input[type=text], .form input[type=password], .form input[type=file], .form textarea, .form-right {
-    width: 70%;
-    padding: 5px;
-}
-
-.form-right {
-    margin-top: -15px;
-    padding-left: 21%;
-}
-
-.form-extra , .secondary{
-    width: 30%;
-    padding: 5px 2.5%;
-    /*background-color: #F2F2F2;*/
-	background-color: white;
-    float: left;
-}
-
-.form-extra h3 {
-    margin: 5px 0;
-}
-
-.error {
-    background-color: lightpink;
-    padding: 5px;
-    border-width: 1px;
-    border-color: red;
-    border-style: solid;
-    margin-bottom: 5px;
-    color: darkred;
-}
-
-.invalid-field {
-	border-width: 2px;
-    border-color: red;
-    border-style: solid;
-    color: darkred;
-}
-
-a[class=button] {
-	height:auto;
-	padding: 8px;
-}
-
-.request td {
-    padding: 5px 20px 5px 0;
-}
-
-.request td.request-content {
-    width: 100%;
-}
-
-.request td.approve_request a {
-    color: green !important;
-}
-
-.request td.deny_request a {
-    color: red !important;
+/* ==========================================================================
+	    BASE
+========================================================================== */
+body
+{
+    background-color: #e0e0e0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #333;
 }
 
 
+/* ==========================================================================
+	    LAYOUT
+========================================================================== */
 
 
-@media (max-width: 768px) {
-    .search-box-main {
-        width: 100%;
-    }
-  
-    #info {
-        padding: 20px;
-    }
-  
-    #info h1 {
-        font-size: 20px;
-    }
-    
-    .form {
-        width: 100%;
-    }
-    
-    .form-extra {
-        width: 90%;
-        padding: 5px 5%;
-    }
-   
-}
 
-@media (max-width: 320px) {
-    #container {
-        -moz-box-shadow: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-        margin: 0;
-    }
-    
-    body {
-        margin: 0;
-    }
-}
+/* ==========================================================================
+	    MODULE
+========================================================================== */
+
+
+
+/* ==========================================================================
+	    STYLE
+========================================================================== */
+
+
+
+/* ==========================================================================
+	    THEME
+========================================================================== */
+
+
+/*
+* === MEDIA QUERIES ===
+*/
+
+
+

@@ -55,7 +55,7 @@ if($action == 'login') {
         if ($result != FALSE) {
             $_SESSION['user'] = $result;
             
-            header("location: dashboard.php");    
+            header("location: dashboard.php"); 
         }
         else {
             $error = "The credentials provided were invalid.";

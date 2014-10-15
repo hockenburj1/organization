@@ -11,6 +11,7 @@ class Template
         $this->template = ROOT . 'templates/' . TEMPLATE_FOLDER . '/' . $file;
         $this->setContent('template_css', TEMPLATE_URL . 'css/style.css');
         $this->setContent('content', '');
+        $this->setContent('title', '');
     }
 	
 	

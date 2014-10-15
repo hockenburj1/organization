@@ -1,3 +1,4 @@
+organization
 /* 
     Document   : style
     Created on : May 22, 2014, 10:20:52 AM
@@ -153,15 +154,33 @@ a {
 }
 
 .organization_search_result {
-    width: 40%;
+    width: 30%;
     float: left;
-    padding-right: 5%; 
+    height:95px; 
+    padding: 10px 1.5%; 
+    background:lightgray; 
+    margin-bottom:15px; 
+    margin-right:15px;
+}
+
+.page_head {
+    padding-bottom: 20px;
+    height: 60px;
+}
+
+.info h1 {
+    padding-top: 0px;
+    margin-top: 0px !important;
 }
 
 h1 {
-    margin-top: 0px;
+    margin-top: 5px !important;
     margin-bottom: 5px;
 	color: darkblue;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 5px !important;
 }
 
 h3.accordion {

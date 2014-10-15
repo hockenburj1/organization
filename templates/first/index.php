@@ -3,6 +3,7 @@
     <head>
         <base href="<?php echo SITE_URL ?>">
         <link rel="stylesheet" type="text/css" href="<?php echo TEMPLATE_URL ?>css/style.css" />
+		<link href="<?php echo TEMPLATE_URL ?>css/bootstrap.min.css" rel="stylesheet">
         <title><?php echo $title ?></title>
     </head>
     <body>
@@ -23,5 +24,7 @@
             </div>
             <div style="clear: both;"></div>
         </div>
+		<script src="<?php echo TEMPLATE_URL ?>js/jquery-1.11.0.js"></script>
+    <script src="<?php echo TEMPLATE_URL ?>js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -1,33 +1,50 @@
 <h1>Edit Organization</h1>
+<hr>
+
 <div class="form">
     <div>
     <?php if(isset($error)) : ?>
         <div class="error"><?php echo $error; ?></div>
     <?php endif; ?>
     </div>
-    <form method="POST" type="multipart">
-    <p>
-        <label>Name:</label><input type="text" name="name" value="<?php echo $organization->name ?>"/>
-    </p>
-    <p>
-        <label>Abbreviation:</label><input type="text" name="abbreviation" value="<?php echo $organization->name ?>"/>
-    </p>
-    <p>
-        <label>Description:</label><textarea name="description" rows="5"><?php echo $organization->description ?></textarea>
-    </p>
-    <p>
-        <label>Image/Logo:</label><input name="logo" type="file" />
-    </p>
-    <p>
-        <label>Parent:</label><input type="text" name="parent" id="parent-name" value="<?php if(!empty($organization->parents)) { echo $organization->parents[0]->name; } ?>"/>
-    </p>
-    <p>
+    <form role="form" method="POST" type="multipart" class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name:</label>
+		<div class="col-sm-10">
+			<input type="text" name="name" class="form-control " value="<?php echo $organization->name ?>"/>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Abbreviation:</label>
+		<div class="col-sm-10">
+			<input type="text" name="abbreviation" class="form-control"  value="<?php echo $organization->name ?>"/>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Description:</label>
+		<div class="col-sm-10">
+			<textarea name="description" rows="5" class="form-control" ><?php echo $organization->description ?></textarea>
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Image/Logo:</label>
+		<div class="col-sm-10">
+			<input name="logo" type="file" />
+		</div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Parent:</label>
+		<div class="col-sm-10">
+			<input type="text" name="parent" id="parent-name" class="form-control"  value="<?php if(!empty($organization->parents)) { echo $organization->parents[0]->name; } ?>"/>
+		</div>
+    </div>
+    <div class="form-group">
         <input name="request" type="checkbox" value="TRUE" <?php if(empty($_POST) || post('request') == 'TRUE') {echo "checked";} ?>/> I would like this organization to appear in the search results.
-    </p>
+    </div>
     <input type="hidden" name="parent_id" id="parent_id" value="<?php echo $organization->parent ?>"/>
-    <p>
-        <input type="submit" class="button" value="Edit Organization"/>
-    </p>
+    <div class="form-group">
+        <button type="submit" class="button" class="btn btn-default">Edit Organization</button>
+    </div>
     </form>
 </div>
 <div class="form-extra">

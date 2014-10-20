@@ -25,6 +25,17 @@ class MySQLiDB extends Database {
         return $resultset;
     }
     
+    function query_objects($query, $parameters = array(), $class_name) {
+        $statement = $this->con->prepare($query);
+        $statement->execute($parameters);
+        
+        $objects = array();
+        while ($object = $statement->fetchObject("User")) {
+            $objects[] = $object;
+        }
+        return $objects;
+    }
+    
     public function last_id() {
         return $this->con->lastInsertId();
     }

@@ -29,4 +29,5 @@ class Event {
             $this->finish = date_create($result[0]['finish']);      
         }
     }
+    
 }

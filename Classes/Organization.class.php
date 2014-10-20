@@ -49,7 +49,6 @@ Class Organization {
         return $result;
     }
     
-    function get_events() {}
     function get_members() {
         $members = array();
         $result = $this->db->query("SELECT uid FROM Membership where oid = $this->id");
@@ -400,6 +399,13 @@ Class Organization {
         return true;
     }
     
+    public function get_events() {
+        $date = new DateTime();
+        $currrent_time = $date->format('Y-m-d h:i:s');
+        $query = "SELECT oid FROM Event WHERE finish > '$currrent_time'";
+        $result = $this->db->query($query);
+        return $result;
+    }
 }
 
 ?>

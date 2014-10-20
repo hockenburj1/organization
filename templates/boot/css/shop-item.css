@@ -48,3 +48,7 @@ footer {
 .control-label {
 	text-align: left !important;
 }
+
+.form-extra {
+    background: lightgray;
+}

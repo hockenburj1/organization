@@ -1,6 +1,6 @@
 <?php
 include('config.php');
-$user = get_user();
+//$user = get_user();
 $page = new Template();
 $page->setContent('title', 'Dashboard');
 $page->addContent('content', get_content('dashboard.content.php'));

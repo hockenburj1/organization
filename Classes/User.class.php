@@ -11,16 +11,37 @@ Class User {
     public $password;
     public $db;
 
-    public function __construct($db, $user_id = 0) {
+    public function __construct() {
+        global $db;
         $this->db = $db;
         
-        if($user_id != 0) {
-            $this->id = $user_id;
+        if (!isset($this->id) || empty($this->id)) {
+            $this->id;
+        }
+        
+        if($this->id != 0) {
             $this->set_permissions();
             $this->set_user_info();
         }
     }
     
+    public static function get_user($db, $user_id) {
+        $query = 
+            "SELECT uid as id,
+                email,
+                password,
+                first_name,
+                last_name,
+                CONCAT_WS(' ', first_name, last_name) as name
+            FROM User
+            LIMIT 1;";
+        $params = array('uid' => $user_id);
+        $users = $db->query_objects($query, $params, 'User');
+        
+        return $users[0];
+    }
+
+
     private function set_permissions() {
         $query = "SELECT user_role.oid, permission.value
 FROM user_role

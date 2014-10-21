@@ -14,7 +14,7 @@
         <table>
             <?php foreach ($member_requesters as $requester) : ?>
             <tr class="request">
-                <td class='request-content'><a href="organization.php?org=<?php echo $requester->id ?>"><?php echo $requester->name ?></a></td> 
+                <td class='request-content'><?php echo $requester->name ?></td> 
                 <td class='approve_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=approve&member_id=<?php echo $requester->id ?>'>Approve</a></td> 
                 <td class='deny_request'><a href='organization.php?org=<?php echo $organization->id ?>&action=manage_requests&type=member&decision=deny&member_id=<?php echo $requester->id ?>'>Deny</a></td>
             </tr>

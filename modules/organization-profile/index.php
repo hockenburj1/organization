@@ -1,18 +1,13 @@
 <?php
 $org_id = empty(get('org')) ? '0' : get('org');
 $action = get('action');
-$user = session('user');
-
-if(!empty($user)) {
-    $user = new User($db, $user);
-}
 
 //$organization = Organization::search_abbreviation($abbreviation);
 $organization = new Organization($db, $org_id);
 
 // If creating an organization
 if($organization->id == 0) {
-    if($action == 'add_organization' && !empty($user)) {
+    if($action == 'add_organization' && isset($user)) {
         if(!empty(post('name'))) {
             $organization->name = post('name');
             $organization->abbreviation = post('abbreviation');

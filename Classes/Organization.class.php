@@ -289,7 +289,7 @@ Class Organization {
         
         $users = array();
         foreach($results as $result) {
-            $users[] = new User($this->db, $result['uid']);
+            $users[] = User::get_user($this->db, $result['uid']);
         }
         
         return $users;

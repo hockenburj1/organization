@@ -16,7 +16,7 @@ Class User {
         $this->db = $db;
         
         if (!isset($this->id) || empty($this->id)) {
-            $this->id;
+            $this->id = 0;
         }
         
         if($this->id != 0) {
@@ -34,6 +34,7 @@ Class User {
                 last_name,
                 CONCAT_WS(' ', first_name, last_name) as name
             FROM User
+            WHERE uid = :uid
             LIMIT 1;";
         $params = array('uid' => $user_id);
         $users = $db->query_objects($query, $params, 'User');
@@ -48,7 +49,7 @@ FROM user_role
 join role on role.rid = user_role.rid
 join role_permission on role_permission.rid = role.rid
 join permission on permission.pid = role_permission.pid
-where user_role.uid = 1";
+where user_role.uid = :uid";
         $params = array('uid' => $this->id);
         $results = $this->db->query($query, $params);
         
@@ -170,7 +171,7 @@ WHERE membership.uid = :uid';
         );
         $result = $this->db->query($query, $params);
         
-        if(empty($result)) {
+        if(!empty($result) || $this->is_member($oid)) {
             return FALSE;
         }
         

@@ -3,7 +3,7 @@
         <h1>Organizations</h1>
     </div>
     <div class="col-lg-1 header-buttons">
-        <a><img src="images/new_file.png" height="25" /><br/>New</a>
+        <a href="organization.php?action=add_organization"><img src="images/new_file.png" height="25" /><br/>New</a>
     </div>   
 </div>
 <div class="col-lg-12">

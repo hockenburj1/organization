@@ -11,7 +11,6 @@ if(isset($_SESSION['user'])) {
     
     //if action is update
     elseif($action == 'update') {
-        $user = get_user();
 
         //Update form submitted
         if (!empty($_POST)) {
@@ -53,8 +52,7 @@ if($action == 'login') {
         $result = $login->attempt($email, $password);
         
         if ($result != FALSE) {
-            $_SESSION['user'] = $result;
-            
+            $_SESSION['user'] = $result;    
             header("location: dashboard.php"); 
         }
         else {
@@ -67,7 +65,7 @@ if($action == 'login') {
 
 //if action is registration
 if($action == 'register') {
-    $new_user = new User($db);
+    $new_user = new User();
     
     //Registration form submitted
     if (!empty($_POST)) {
@@ -77,7 +75,7 @@ if($action == 'register') {
         $new_user->last_name = post('register-last-name');
         
         if($new_user->save()) {
-            //$_SESSION['user'] = $new_user->id;
+            $_SESSION['user'] = $new_user->id;
             header("location: dashboard.php"); 
         }
         

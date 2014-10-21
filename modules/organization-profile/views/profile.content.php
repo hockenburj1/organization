@@ -14,7 +14,6 @@
 <div class="form-extra">
     <?php if(isset($user) && $user->is_member($organization->id)) : ?>
         Cool! I am a member already!
-        <?php print_r($user->roles); ?>
         <a href="organization.php?org=<?php echo $organization->id ?>">Events</a><br />
         <?php if ( $user->has_permission($organization->id, 'edit_organization') ) : ?>
             <a href="organization.php?org=<?php echo $organization->id ?>&action=edit_organization">Edit Organization</a>

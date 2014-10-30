@@ -17,16 +17,35 @@ class Event {
     public $start;
     public $finish;
 
-    public function __construct($db, $event_id = 0) {
-        $query = 'SELECT * FROM event WHERE eid = :event_id LIMIT 1';
-        $params = array('event_id' => $event_id);
-        $result = $db->query($query, $params);
+    public function __construct($event_id = 0) {
+        global $db;
+        $this->db = $db;
         
-        if( !empty($result) ) {
-            $this->name = $result[0]['name'];
-            $this->description = $result[0]['description'];
-            $this->start = date_create($result[0]['start']);
-            $this->finish = date_create($result[0]['finish']);      
+        if( $this->id != 0 ) {
+            $this->start = date_create($this->start);
+            $this->finish = date_create($this->finish);      
+        }
+    }
+    
+    public static function get_event($db, $event_id) {
+        $query = 
+            'SELECT eid as id,
+                oid,
+                name,
+                description,
+                start,
+                finish
+            FROM event 
+            WHERE eid = :event_id 
+            LIMIT 1';
+        $params = array('event_id' => $event_id);
+        $events = $db->query_objects($query, $params, 'Event');
+        
+        if(!empty($events)) {
+            return $events[0];
+        }
+        else {
+            return NULL;
         }
     }
     

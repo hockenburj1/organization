@@ -11,22 +11,36 @@ Class Organization {
     public $abbreviation;
     public $requestable;
     
-    function __construct($db, $organization_id = 0){
+    function __construct(){
+        global $db;
         $this->db = $db;
-        $this->id = $organization_id;
         
-        if($organization_id != 0) {
-            $result = $this->db->query("SELECT * FROM Organization WHERE oid = $organization_id");
-
-            $this->id = $organization_id;
-            $this->name = $result['0']['name'];
-            $this->description = $result['0']['description'];
-            $this->parents = $this->get_parents();
-            $this->parent = $result['0']['parent_oid'];
-            $this->tags = $this->get_tags();
-            $this->abbreviation = $result['0']['abbreviation'];
-            $this->requestable = $result['0']['membership_requestable'];
+        if (!isset($this->id) || empty($this->id)) {
+            $this->id = 0;
         }
+        
+        if($this->id != 0) {
+            $this->parents = $this->get_parents();
+            $this->tags = $this->get_tags();
+        }
+    }
+    
+    public static function get_organization($db, $organization_id) {
+        $query = 
+            'SELECT *
+            FROM organization_view 
+            WHERE id = :oid
+            LIMIT 1';
+        
+        $params = array('oid' => $organization_id);
+        $organizations = $db->query_objects($query, $params, 'Organization');
+        
+        if(!empty($organizations)) {
+            return $organizations[0];
+        }
+        else {
+            return array();
+        }    
     }
     
     function get_name() {
@@ -62,8 +76,7 @@ Class Organization {
     
     function get_parent($organization_id) {
         $result = $this->db->query("SELECT parent_oid FROM Organization WHERE oid = $organization_id AND confirmed_parent = TRUE");
-        
-        
+            
         if(empty($result)) {
             return "";
         }
@@ -87,14 +100,14 @@ Class Organization {
      
         $parent_objects = array();
         foreach(array_keys($parents) as $parent_id) {
-            $parent_objects[] = new Organization($this->db, $parent_id);
+            $parent_objects[] = Organization::get_organization($this->db, $parent_id);
         }
         
         return $parent_objects;
     }
     
     function get_memberships() {
-        $memberships = array(new Organization($this->db, $this->id));
+        $memberships = array(Organization::get_organization($this->db, $this->id));
         
         if(!empty($this->parents)) {
             $memberships = array_merge($memberships, $this->parents);
@@ -125,7 +138,7 @@ Class Organization {
         
         $child_objects = array();
         foreach (array_keys($processed_children) as $child_id) {
-            $child_objects[] = new Organization($this->db, $child_id);
+            $child_objects[] = Organization::get_organization($this->db, $child_id);
         }
         return $child_objects;
     }
@@ -147,7 +160,7 @@ Class Organization {
         $result = $db->query($query, $params);
         
         if(!empty($result)) {
-            return new Organization($db, $result['0']['oid']);
+            return Organization::get_organization($db, $result['0']['oid']);
         }
         else {
             return '';
@@ -274,7 +287,7 @@ Class Organization {
         
         $organizations = array();
         foreach($results as $result) {
-            $organizations[] = new Organization($this->db, $result['oid']);
+            $organizations[] = Organization::get_organization($this->db, $result['oid']);
         }
         
         return $organizations;
@@ -287,10 +300,12 @@ Class Organization {
         $params = array('oid' => $this->id);
         $results = $this->db->query($query, $params);
         
-        $users = array();
-        foreach($results as $result) {
-            $users[] = User::get_user($this->db, $result['uid']);
+        $uids = array();
+        foreach ($results as $result) {
+            $uids[] = $result['uid'];
         }
+        
+        $users = User::get_users($this->db, $uids);
         
         return $users;
     }
@@ -402,9 +417,203 @@ Class Organization {
     public function get_events() {
         $date = new DateTime();
         $currrent_time = $date->format('Y-m-d h:i:s');
-        $query = "SELECT oid FROM Event WHERE finish > '$currrent_time'";
-        $result = $this->db->query($query);
+        $query = 
+            "SELECT eid as id,
+                name,
+                description,
+                start,
+                finish
+            FROM Event
+            WHERE 
+                finish > '$currrent_time' AND
+                oid = :oid";
+        $params = array('oid' => $this->id);
+        $result = $this->db->query_objects($query, $params, 'Event');
         return $result;
+    }
+    
+    public function has_role($rid) {
+        $query = 
+            "SELECT rid, oid
+            FROM role_membership
+            WHERE oid = $this->id AND rid = :rid";
+        $params = array("rid" => $rid);
+        $roles = $this->db->query($query, $params);
+        
+        if(!empty($roles)) {
+            return TRUE;
+        }
+        else {
+            return FALSE;
+        }       
+    }
+    
+    public function get_roles() {
+        $query = 
+            "SELECT role.rid, role.title
+            FROM role_membership
+            JOIN role on role_membership.rid = role.rid
+            WHERE oid = $this->id";
+        $roles = $this->db->query($query);
+        return $roles;
+    }
+    
+    public function get_permissions_list() {
+        $query = 
+            "SELECT pid, name FROM permission";
+        $permissions = $this->db->query($query);
+        
+        $perm_array = array();
+        foreach($permissions as $permission) {
+            $perm_array[] = array("pid" => $permission['pid'], "name" => $permission['name']);
+        }
+        
+        return $perm_array;
+    }
+    
+    public function get_role($rid) {
+        $query = "SELECT rid, title from role WHERE rid = :rid";
+        $params = array("rid" => $rid);
+        $roles = $this->db->query($query, $params);
+        
+        if(!empty($roles)) {
+            return array("rid" => $roles[0]['rid'], "title" => $roles[0]['title']);
+        }
+        else {
+            '';
+        }
+    }
+    
+    public function get_role_permissions($rid) {
+        if(!$this->has_role($rid)) {
+            return array();
+        }
+        $query =
+            "SELECT role_permission.pid, permission.name
+            FROM role_permission
+            JOIN permission on permission.pid = role_permission.pid
+            WHERE role_permission.rid = :rid";
+        $params = array("rid" => $rid);
+        $permissions = $this->db->query($query, $params);
+        $perm_array = array();
+        foreach($permissions as $permission) {
+            $perm_array[] = $permission['pid'];
+        }
+        
+        return $perm_array;
+    }
+    
+    public function add_role($role_name, $permissions) {
+        if($this->id == 0) {
+            return false;
+        }
+        
+        if(empty($role_name) || empty($permissions)) {
+            return false;
+        }
+        
+        $role_names = array();
+        $roles = $this->get_roles();
+        foreach($roles as $role) {
+            $role_names[] = $role['title'];
+        }
+        
+        if(in_array($role_name, $role_names)) {
+            return FALSE;
+        }
+        
+        $valid_permissions = $this->get_permissions_list();
+        $valid_permissions_ids = array();
+        foreach ($valid_permissions as $permission) {
+            $valid_permissions_ids[] = $permission['pid']; 
+        }
+        
+        foreach($permissions as $permission) {
+            if(!in_array($permission, $valid_permissions_ids)) {
+                return false;
+            }
+        }
+        
+        $query = "INSERT INTO role (title) VALUES(:title)";
+        $params = array("title" => $role_name);
+        $this->db->query($query, $params);
+        
+        $role_id = $this->db->last_id();
+        
+        $query = "INSERT INTO role_membership (oid, rid) VALUES(:oid, :rid)";
+        $params = array("oid" => $this->id, "rid" => $role_id);
+        $this->db->query($query, $params);
+        
+        foreach($permissions as $permission) {
+            $query = "INSERT INTO role_permission (rid, pid) VALUES(:rid, :pid)";
+            $params = array("rid" => $role_id, "pid" => $permission);
+            $this->db->query($query, $params);
+        }
+        
+        return TRUE;
+    }
+    
+    public function update_role($role_id, $role_name, $permissions) {
+        if($this->id == 0) {
+            return false;
+        }
+        
+        if(!$this->has_role($role_id) || empty($role_id) || empty($permissions)) {
+            return false;
+        }
+        
+        // Prevent changing the administrator role
+        if($role_id == 1) {
+            return FALSE;
+        }
+        
+        $valid_permissions = $this->get_permissions_list();
+        $valid_permissions_ids = array();
+        foreach ($valid_permissions as $permission) {
+            $valid_permissions_ids[] = $permission['pid']; 
+        }
+        
+        foreach($permissions as $permission) {
+            if(!in_array($permission, $valid_permissions_ids)) {
+                return false;
+            }
+        }
+
+        $query = "DELETE FROM role_permission WHERE rid = :rid";
+        $params = array("rid" => $role_id);
+        $this->db->query($query, $params);
+        
+        foreach($permissions as $permission) {
+            $query = "INSERT INTO role_permission (rid, pid) VALUES(:rid, :pid)";
+            $params = array("rid" => $role_id, "pid" => $permission);
+            $this->db->query($query, $params);
+        }
+        
+        
+        $query = "UPDATE role set title = :title WHERE rid = :rid";
+        $params = array("rid" => $role_id, "title" => $role_name);
+        $this->db->query($query, $params);
+        
+        return TRUE;
+    }
+    
+    public function delete_role($role_id) {
+        if($role_id == 0 || $this->id == 0) {
+            return false;
+        }
+        
+        if(!$this->has_role($role_id) || empty($role_id) || empty($permissions)) {
+            return false;
+        }
+        
+        // Prevent changing the administrator role
+        if($role_id == 1) {
+            return FALSE;
+        }
+        
+        $query = "DELETE FROM role WHERE rid = :rid";
+        $params = array('rid' => $role_id);
+        $this->db->query($query, $params);
     }
 }
 

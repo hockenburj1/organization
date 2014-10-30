@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
   <script>
@@ -13,7 +13,7 @@
 </script>
   
 <div id="search-form">
-    <form action="search.php" method="post">
+    <form action="search.php" method="get">
         <input class="search-box search-box-main" type="text" placeholder="Organization name..." id="keyword" name="keyword" value="<?php if(isset($_POST['keyword'])) echo $_POST['keyword'] ?>"/>
     <input class="search-box search-box-main" type="text" placeholder="Organization Association" id="tag" name="tag" value="<?php if(isset($_POST['tag'])) echo $_POST['tag'] ?>"/>
     <input class="button" type="submit" />
@@ -28,9 +28,11 @@
                 <h2><a href="organization.php?org=<?php echo $organization->id ?>"><?php echo $organization->name ?></a></h2>
                 <span><?php echo $organization->description ?></span>
                 <span>
-                    <?php foreach($organization->tags as $tag) : ?>
-                        <a href="#"><?php echo $tag ?></a>
-                    <?php endforeach; ?>
+                    <?php if(!empty($organization->tags)) : ?>
+                        <?php foreach($organization->tags as $tag) : ?>
+                            <a href="#"><?php echo $tag ?></a>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </span>
             </div>
             

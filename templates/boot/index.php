@@ -65,7 +65,5 @@
         </footer>
     </div>
 
-    <script src="<?php echo TEMPLATE_URL ?>js/jquery-1.11.0.js"></script>
-    <script src="<?php echo TEMPLATE_URL ?>js/bootstrap.min.js"></script>
 </body>
 </html>

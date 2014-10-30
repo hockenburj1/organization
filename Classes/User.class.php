@@ -6,7 +6,6 @@ Class User {
     public $name;
     public $first_name;
     public $last_name;
-    public $is_admin = TRUE;
     public $roles;
     public $password;
     public $db;
@@ -42,14 +41,35 @@ Class User {
         return $users[0];
     }
 
+    public static function get_users($db, $user_ids) {
+        $uids = implode(',', $user_ids);
+        $query = 
+            "SELECT uid as id,
+                email,
+                password,
+                first_name,
+                last_name,
+                CONCAT_WS(' ', first_name, last_name) as name
+            FROM User
+            WHERE uid IN ($uids)";
+        $params = array('uid' => $uids);
+        $users = $db->query_objects($query, $params, 'User');
+        
+        if (empty($users)) {
+            return null;
+        }
+        
+        return $users; 
+    }
 
     private function set_permissions() {
-        $query = "SELECT user_role.oid, permission.value
-FROM user_role
-join role on role.rid = user_role.rid
-join role_permission on role_permission.rid = role.rid
-join permission on permission.pid = role_permission.pid
-where user_role.uid = :uid";
+        $query = 
+            "SELECT user_role.oid, permission.value
+            FROM user_role
+            JOIN role on role.rid = user_role.rid
+            JOIN role_permission on role_permission.rid = role.rid
+            JOIN permission on permission.pid = role_permission.pid
+            WHERE user_role.uid = :uid";
         $params = array('uid' => $this->id);
         $results = $this->db->query($query, $params);
         
@@ -85,17 +105,13 @@ where user_role.uid = :uid";
     }
     
     public function get_organizations() {
-        $query = 'SELECT membership.oid, organization.name 
-FROM membership
-JOIN organization ON organization.oid = membership.oid  
-WHERE membership.uid = :uid';
+        $query = 
+            'SELECT ov.*
+            FROM membership
+            JOIN organization_view as ov ON ov.id = membership.oid  
+            WHERE membership.uid = :uid';
         $params = array('uid' => $this->id);
-        $result = $this->db->query($query, $params);
-        
-        $organizations = array();
-        foreach ($result as $organization) {
-            $organizations[] = new Organization($this->db, $organization['oid']); 
-        }
+        $organizations = $this->db->query_objects($query, $params, 'Organization');
         
         return $organizations;
     }
@@ -196,6 +212,36 @@ WHERE membership.uid = :uid';
         }
         
         return TRUE;
+    }
+    
+    public function get_events() {
+        $organizations = $this->get_organizations();
+
+        $oids = array();
+        foreach ($organizations as $organization) {
+            if(is_numeric($organization->id)) {
+                $oids[] = $organization->id;
+            }   
+        }
+
+        $oids_string = implode(',', $oids);
+        
+        $date = new DateTime();
+        $currrent_time = $date->format('Y-m-d h:i:s');
+        $query = 
+            "SELECT eid as id,
+                name,
+                description,
+                start,
+                finish
+            FROM Event
+            WHERE 
+                finish > '$currrent_time' AND
+                oid in ($oids_string)";
+        
+        $params = array();
+        $events = $this->db->query_objects($query, $params, 'Event');
+        return $events;
     }
 }
 

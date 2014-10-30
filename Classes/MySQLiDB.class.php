@@ -5,7 +5,12 @@ class MySQLiDB extends Database {
     
     function __construct($host, $user, $password, $name) {
         $dsn = "mysql:dbname=$name;host=$host";
-        $this->con = new PDO($dsn, $user, $password);
+        try {
+            $this->con = new PDO($dsn, $user, $password);
+        }
+	catch(PDOException $ex) { 
+            die("Failed to connect to the database: " . $ex->getMessage()); 
+	} 
     }
 
 
@@ -25,14 +30,15 @@ class MySQLiDB extends Database {
         return $resultset;
     }
     
-    function query_objects($query, $parameters = array(), $class_name) {
+    function query_objects($query, $parameters, $class_name) {
         $statement = $this->con->prepare($query);
         $statement->execute($parameters);
-        
+
         $objects = array();
-        while ($object = $statement->fetchObject("User")) {
+        while ($object = $statement->fetchObject($class_name)) {
             $objects[] = $object;
         }
+
         return $objects;
     }
     

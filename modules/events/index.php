@@ -1,24 +1,23 @@
 <?php
-$organizations = $user->get_organizations();
+$event_id = empty(get('event')) ? '0' : get('event');
+$org_id = empty(get('org')) ? '0' : get('org');
+$action = get('action');
 
-$oids = array();
-foreach ($organizations as $organization) {
-    if(is_numeric($organization->id)) {
-        $oids[] = $organization->id;
-    }   
+if($event_id != 0) { 
+    $event = Event::get_event($db, $event_id);
+    include($module_location . 'views/event.content.php'); 
 }
 
-$oids_string = implode(',', $oids);
-$query = "SELECT eid from Event WHERE oid IN($oids_string)";
-$result = $db->query($query);
-
-$events = array();
-foreach ($result as $event_row) {
-    $event_id = $event_row['eid'];
-    $event = new Event($db, $event_id);
-    $events[] = $event;
+elseif ($org_id != 0 && $user->is_member($org_id)) {
+    $organization = Organization::get_organization($db,$org_id);
+    $events = $organization->get_events();
+    include($module_location . 'views/all.content.php');  
 }
 
-include($module_location . 'views/all.content.php');
+else {
+    $events = $user->get_events();
+    include($module_location . 'views/all.content.php');  
+}
+
 
 ?>

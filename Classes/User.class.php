@@ -26,14 +26,14 @@ Class User {
     
     public static function get_user($db, $user_id) {
         $query = 
-            "SELECT uid as id,
+            "SELECT id,
                 email,
                 password,
                 first_name,
                 last_name,
                 CONCAT_WS(' ', first_name, last_name) as name
             FROM User
-            WHERE uid = :uid
+            WHERE id = :uid
             LIMIT 1;";
         $params = array('uid' => $user_id);
         $users = $db->query_objects($query, $params, 'User');
@@ -44,14 +44,14 @@ Class User {
     public static function get_users($db, $user_ids) {
         $uids = implode(',', $user_ids);
         $query = 
-            "SELECT uid as id,
+            "SELECT id,
                 email,
                 password,
                 first_name,
                 last_name,
                 CONCAT_WS(' ', first_name, last_name) as name
             FROM User
-            WHERE uid IN ($uids)";
+            WHERE id IN ($uids)";
         $params = array('uid' => $uids);
         $users = $db->query_objects($query, $params, 'User');
         
@@ -66,9 +66,9 @@ Class User {
         $query = 
             "SELECT user_role.oid, permission.value
             FROM user_role
-            JOIN role on role.rid = user_role.rid
-            JOIN role_permission on role_permission.rid = role.rid
-            JOIN permission on permission.pid = role_permission.pid
+            JOIN role on role.id = user_role.rid
+            JOIN role_permission on role_permission.rid = role.id
+            JOIN permission on permission.id = role_permission.pid
             WHERE user_role.uid = :uid";
         $params = array('uid' => $this->id);
         $results = $this->db->query($query, $params);
@@ -94,7 +94,7 @@ Class User {
     }
     
     private function set_user_info() {
-        $query = 'SELECT * FROM User WHERE uid = :uid LIMIT 1';
+        $query = 'SELECT * FROM User WHERE id = :uid LIMIT 1';
         $params = array('uid' => $this->id);
         $info = $this->db->query($query, $params);
         $this->first_name = $info[0]['first_name'];
@@ -106,9 +106,9 @@ Class User {
     
     public function get_organizations() {
         $query = 
-            'SELECT ov.*
+            'SELECT organization.*
             FROM membership
-            JOIN organization_view as ov ON ov.id = membership.oid  
+            JOIN organization ON organization.id = membership.oid  
             WHERE membership.uid = :uid';
         $params = array('uid' => $this->id);
         $organizations = $this->db->query_objects($query, $params, 'Organization');
@@ -138,7 +138,7 @@ Class User {
         
         // update user
         else {
-            $query = 'UPDATE User SET password = :password, first_name = :first_name, last_name = :last_name WHERE uid = :uid';
+            $query = 'UPDATE User SET password = :password, first_name = :first_name, last_name = :last_name WHERE id = :uid';
 
             $params = array(
                 'uid' => $this->id,
@@ -167,7 +167,7 @@ Class User {
     
     public static function exists($user_id) {
         global $db;
-        $query = 'SELECT * FROM User WHERE uid = :uid LIMIT 1';
+        $query = 'SELECT * FROM User WHERE id = :uid LIMIT 1';
         $params = array('uid' => $user_id);
         $existing = $db->query($query, $params);
         
@@ -229,7 +229,7 @@ Class User {
         $date = new DateTime();
         $currrent_time = $date->format('Y-m-d h:i:s');
         $query = 
-            "SELECT eid as id,
+            "SELECT id,
                 name,
                 description,
                 start,

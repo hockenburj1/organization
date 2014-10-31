@@ -28,7 +28,7 @@ Class Organization {
     public static function get_organization($db, $organization_id) {
         $query = 
             'SELECT *
-            FROM organization_view 
+            FROM organization
             WHERE id = :oid
             LIMIT 1';
         
@@ -75,13 +75,13 @@ Class Organization {
     }
     
     function get_parent($organization_id) {
-        $result = $this->db->query("SELECT parent_oid FROM Organization WHERE oid = $organization_id AND confirmed_parent = TRUE");
+        $result = $this->db->query("SELECT parent_oid FROM Organization WHERE id = $organization_id AND confirmed_parent = TRUE");
             
         if(empty($result)) {
             return "";
         }
         $parent_id = $result[0]['parent_oid'];
-        $result = $this->db->query("SELECT oid, name FROM Organization WHERE oid = $parent_id");
+        $result = $this->db->query("SELECT id, name FROM Organization WHERE id = $parent_id");
         return $result;
     }
     
@@ -91,7 +91,7 @@ Class Organization {
         $parent = $this->get_parent($id);
 
         while ( !empty($parent) ) {
-            $parent_id = $parent[0]['oid'];
+            $parent_id = $parent[0]['id'];
             $parent_name = $parent[0]['name'];
 
             $parents[$parent_id] = $parent_name;
@@ -118,21 +118,21 @@ Class Organization {
     
     function get_children() {
         $processed_children = array();
-        $children = $this->db->query("SELECT oid, name, parent_oid FROM Organization WHERE parent_oid = $this->id");
+        $children = $this->db->query("SELECT id, name, parent_oid FROM Organization WHERE parent_oid = $this->id");
         
         while(!empty($children)) {
             $child_query = "";
             $parents = array();
             
             foreach ($children as $child) {
-                $child_id = $child['oid'];
+                $child_id = $child['id'];
                 $child_name = $child['name'];
                 $processed_children[$child_id] = $child_name;
                 $parents[] = $child_id; 
             }
             
             $parents_string = join(',', $parents);
-            $children = $this->db->query("SELECT oid, name, parent_oid FROM Organization WHERE parent_oid IN ($parents_string)");
+            $children = $this->db->query("SELECT id, name, parent_oid FROM Organization WHERE parent_oid IN ($parents_string)");
             
         }
         
@@ -160,7 +160,7 @@ Class Organization {
         $result = $db->query($query, $params);
         
         if(!empty($result)) {
-            return Organization::get_organization($db, $result['0']['oid']);
+            return Organization::get_organization($db, $result['0']['id']);
         }
         else {
             return '';
@@ -241,7 +241,7 @@ Class Organization {
     
     private function update_parent_record() {
         // Query current data
-        $query = "SELECT parent_oid FROM Organization WHERE oid = $this->id";
+        $query = "SELECT parent_oid FROM Organization WHERE id = $this->id";
         $result = $this->db->query($query);
         
         // If no parent or equals new parent return FALSE
@@ -369,7 +369,7 @@ Class Organization {
         if($decision == 'approve') {
             $query = "UPDATE organization
                 SET confirmed_parent = TRUE
-                WHERE oid = :child_id";
+                WHERE id = :child_id";
             $params = array(
                     'child_id' => $child_id
             );
@@ -418,7 +418,7 @@ Class Organization {
         $date = new DateTime();
         $currrent_time = $date->format('Y-m-d h:i:s');
         $query = 
-            "SELECT eid as id,
+            "SELECT id,
                 name,
                 description,
                 start,
@@ -450,9 +450,9 @@ Class Organization {
     
     public function get_roles() {
         $query = 
-            "SELECT role.rid, role.title
+            "SELECT role.id, role.title
             FROM role_membership
-            JOIN role on role_membership.rid = role.rid
+            JOIN role on role_membership.rid = role.id
             WHERE oid = $this->id";
         $roles = $this->db->query($query);
         return $roles;
@@ -460,24 +460,24 @@ Class Organization {
     
     public function get_permissions_list() {
         $query = 
-            "SELECT pid, name FROM permission";
+            "SELECT id, name FROM permission";
         $permissions = $this->db->query($query);
         
         $perm_array = array();
         foreach($permissions as $permission) {
-            $perm_array[] = array("pid" => $permission['pid'], "name" => $permission['name']);
+            $perm_array[] = array("id" => $permission['id'], "name" => $permission['name']);
         }
         
         return $perm_array;
     }
     
     public function get_role($rid) {
-        $query = "SELECT rid, title from role WHERE rid = :rid";
+        $query = "SELECT id, title from role WHERE id = :rid";
         $params = array("rid" => $rid);
         $roles = $this->db->query($query, $params);
         
         if(!empty($roles)) {
-            return array("rid" => $roles[0]['rid'], "title" => $roles[0]['title']);
+            return array("id" => $roles[0]['id'], "title" => $roles[0]['title']);
         }
         else {
             '';
@@ -491,7 +491,7 @@ Class Organization {
         $query =
             "SELECT role_permission.pid, permission.name
             FROM role_permission
-            JOIN permission on permission.pid = role_permission.pid
+            JOIN permission on permission.id = role_permission.pid
             WHERE role_permission.rid = :rid";
         $params = array("rid" => $rid);
         $permissions = $this->db->query($query, $params);
@@ -525,7 +525,7 @@ Class Organization {
         $valid_permissions = $this->get_permissions_list();
         $valid_permissions_ids = array();
         foreach ($valid_permissions as $permission) {
-            $valid_permissions_ids[] = $permission['pid']; 
+            $valid_permissions_ids[] = $permission['id']; 
         }
         
         foreach($permissions as $permission) {
@@ -570,7 +570,7 @@ Class Organization {
         $valid_permissions = $this->get_permissions_list();
         $valid_permissions_ids = array();
         foreach ($valid_permissions as $permission) {
-            $valid_permissions_ids[] = $permission['pid']; 
+            $valid_permissions_ids[] = $permission['id']; 
         }
         
         foreach($permissions as $permission) {
@@ -590,7 +590,7 @@ Class Organization {
         }
         
         
-        $query = "UPDATE role set title = :title WHERE rid = :rid";
+        $query = "UPDATE role set title = :title WHERE id = :rid";
         $params = array("rid" => $role_id, "title" => $role_name);
         $this->db->query($query, $params);
         
@@ -602,7 +602,7 @@ Class Organization {
             return false;
         }
         
-        if(!$this->has_role($role_id) || empty($role_id) || empty($permissions)) {
+        if(!$this->has_role($role_id) || empty($role_id)) {
             return false;
         }
         
@@ -611,7 +611,9 @@ Class Organization {
             return FALSE;
         }
         
-        $query = "DELETE FROM role WHERE rid = :rid";
+        
+        
+        $query = "DELETE FROM role WHERE id = :rid";
         $params = array('rid' => $role_id);
         $this->db->query($query, $params);
     }

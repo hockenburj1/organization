@@ -20,8 +20,7 @@ Class Login {
         $params = array('email' => $email, 'password' => $password);
         $result = $this->db->query($query, $params);
         if (count($result) != 0) {
-            //$_SESSION['user'] = new User($this->db, $result[0]['uid']);
-            return $result[0]['uid'];
+            return $result[0]['id'];
         }
         else {
             return FALSE;

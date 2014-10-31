@@ -131,8 +131,7 @@ if ($organization->id != 0) {
             case 'delete_role':
                 $rid = get('rid');
                 $confirm = get('confirm');
-                
-                if(!empty($confirm)) {
+                if(!empty($confirm)) {    
                     if($confirm == 'TRUE') {
                         $organization->delete_role($rid);
                     }

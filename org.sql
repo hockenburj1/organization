@@ -25,12 +25,12 @@ DROP TABLE IF EXISTS `document`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `document` (
-  `did` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(245) DEFAULT NULL,
   `url` varchar(245) DEFAULT NULL,
   `oid` int(11) DEFAULT NULL,
   `administrator` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`did`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -52,13 +52,13 @@ DROP TABLE IF EXISTS `event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event` (
-  `eid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `oid` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `start` datetime DEFAULT NULL,
   `finish` datetime DEFAULT NULL,
-  PRIMARY KEY (`eid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,15 +80,15 @@ DROP TABLE IF EXISTS `membership`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `membership` (
-  `mid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `oid` int(11) DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`mid`),
-  UNIQUE KEY `mid_UNIQUE` (`mid`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mid_UNIQUE` (`id`),
   KEY `organization_idx` (`oid`),
   KEY `user_idx` (`uid`),
-  CONSTRAINT `organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,14 +110,14 @@ DROP TABLE IF EXISTS `membership_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `membership_request` (
-  `mrid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `oid` int(11) DEFAULT NULL,
   `uid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`mrid`),
+  PRIMARY KEY (`id`),
   KEY `mr_user_idx` (`uid`),
   KEY `mr_organization_idx` (`oid`),
-  CONSTRAINT `mr_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `mr_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `mr_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `mr_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -139,15 +139,15 @@ DROP TABLE IF EXISTS `organization`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `organization` (
-  `oid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `abbreviation` varchar(45) DEFAULT NULL,
   `description` varchar(999) DEFAULT NULL,
   `parent_oid` int(11) DEFAULT NULL,
   `membership_requestable` varchar(45) NOT NULL DEFAULT 'FALSE',
   `confirmed_parent` varchar(45) NOT NULL DEFAULT 'FALSE',
-  PRIMARY KEY (`oid`),
-  UNIQUE KEY `oid_UNIQUE` (`oid`),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `oid_UNIQUE` (`id`),
   KEY `pa_idx` (`parent_oid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -163,24 +163,6 @@ INSERT INTO `organization` VALUES (20,'Demo School','DS','This is a demo account
 UNLOCK TABLES;
 
 --
--- Temporary table structure for view `organization_view`
---
-
-DROP TABLE IF EXISTS `organization_view`;
-/*!50001 DROP VIEW IF EXISTS `organization_view`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `organization_view` (
-  `id` tinyint NOT NULL,
-  `name` tinyint NOT NULL,
-  `description` tinyint NOT NULL,
-  `parent` tinyint NOT NULL,
-  `abbreviation` tinyint NOT NULL,
-  `requestable` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
 -- Table structure for table `permission`
 --
 
@@ -188,10 +170,10 @@ DROP TABLE IF EXISTS `permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `permission` (
-  `pid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
   `value` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`pid`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -213,14 +195,14 @@ DROP TABLE IF EXISTS `relationship_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `relationship_request` (
-  `rrid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_oid` int(11) DEFAULT NULL,
   `oid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`rrid`),
+  PRIMARY KEY (`id`),
   KEY `rr_parent_oid_idx` (`parent_oid`),
   KEY `rr_oid_idx` (`oid`),
-  CONSTRAINT `rr_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `rr_parent_oid` FOREIGN KEY (`parent_oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `rr_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `rr_parent_oid` FOREIGN KEY (`parent_oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -242,10 +224,10 @@ DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role` (
-  `rid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`rid`),
-  UNIQUE KEY `rid_UNIQUE` (`rid`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rid_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,7 +237,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'Administrator'),(2,'Event Coordinator'),(4,'Event Sponsor');
+INSERT INTO `role` VALUES (1,'Administrator'),(2,'Event Coordinator');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,8 +256,8 @@ CREATE TABLE `role_membership` (
   UNIQUE KEY `rmid_UNIQUE` (`rmid`),
   KEY `organization_idx` (`oid`),
   KEY `role_idx` (`rid`),
-  CONSTRAINT `rm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `rm_role` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `rm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `rm_role` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -285,7 +267,7 @@ CREATE TABLE `role_membership` (
 
 LOCK TABLES `role_membership` WRITE;
 /*!40000 ALTER TABLE `role_membership` DISABLE KEYS */;
-INSERT INTO `role_membership` VALUES (20,20,1),(21,21,1),(22,22,1),(23,23,1),(24,24,1),(25,25,1),(26,26,1),(27,23,2),(29,23,4);
+INSERT INTO `role_membership` VALUES (20,20,1),(21,21,1),(22,22,1),(23,23,1),(24,24,1),(25,25,1),(26,26,1),(27,23,2);
 /*!40000 ALTER TABLE `role_membership` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,9 +285,9 @@ CREATE TABLE `role_permission` (
   PRIMARY KEY (`rpid`),
   KEY `rp_pid_idx` (`pid`),
   KEY `rp_rid_idx` (`rid`),
-  CONSTRAINT `rp_pid` FOREIGN KEY (`pid`) REFERENCES `permission` (`pid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `rp_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+  CONSTRAINT `rp_pid` FOREIGN KEY (`pid`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `rp_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,7 +296,7 @@ CREATE TABLE `role_permission` (
 
 LOCK TABLES `role_permission` WRITE;
 /*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
-INSERT INTO `role_permission` VALUES (1,1,26),(1,2,27),(1,3,28),(1,4,29),(1,5,30),(1,6,31),(1,7,32),(1,8,33),(2,4,47),(2,5,48),(2,6,49),(1,9,51),(4,4,52),(4,6,53),(1,10,54);
+INSERT INTO `role_permission` VALUES (1,1,26),(1,2,27),(1,3,28),(1,4,29),(1,5,30),(1,6,31),(1,7,32),(1,8,33),(1,9,51),(1,10,54),(2,4,58),(2,5,59),(2,6,60),(2,8,61);
 /*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -356,7 +338,7 @@ CREATE TABLE `tag_membership` (
   PRIMARY KEY (`tmid`),
   KEY `tm_tag_idx` (`tid`),
   KEY `tm_organization_idx` (`oid`),
-  CONSTRAINT `tm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `tm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tm_tag` FOREIGN KEY (`tid`) REFERENCES `tag` (`tid`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -379,13 +361,13 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(90) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `first_name` varchar(45) DEFAULT NULL,
   `last_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`uid`),
-  UNIQUE KEY `uid_UNIQUE` (`uid`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uid_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -415,9 +397,9 @@ CREATE TABLE `user_role` (
   KEY `ur_uid_idx` (`uid`),
   KEY `ur_rid_idx` (`rid`),
   KEY `ur_oid_idx` (`oid`),
-  CONSTRAINT `ur_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`oid`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `ur_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`rid`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `ur_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE NO ACTION ON UPDATE CASCADE
+  CONSTRAINT `ur_oid` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `ur_rid` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT `ur_uid` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -430,25 +412,6 @@ LOCK TABLES `user_role` WRITE;
 INSERT INTO `user_role` VALUES (18,1,1,20),(19,1,1,21),(20,1,1,22),(21,1,1,23),(22,1,1,24),(23,1,1,25),(24,1,1,26);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Final view structure for view `organization_view`
---
-
-/*!50001 DROP TABLE IF EXISTS `organization_view`*/;
-/*!50001 DROP VIEW IF EXISTS `organization_view`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `organization_view` AS select `organization`.`oid` AS `id`,`organization`.`name` AS `name`,`organization`.`description` AS `description`,`organization`.`parent_oid` AS `parent`,`organization`.`abbreviation` AS `abbreviation`,`organization`.`membership_requestable` AS `requestable` from `organization` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -459,4 +422,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-30 16:23:36
+-- Dump completed on 2014-10-31 11:17:13

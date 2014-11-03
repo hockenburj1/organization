@@ -74,7 +74,11 @@ if($action == 'register') {
         $new_user->first_name = post('register-first-name');
         $new_user->last_name = post('register-last-name');
         
-        if($new_user->save()) {
+        if($new_user->check_username() == FALSE) {
+            header('location: membership.php?action=login');
+        }
+        
+        else if($new_user->save()) {
             $_SESSION['user'] = $new_user->id;
             header("location: dashboard.php"); 
         }

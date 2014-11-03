@@ -146,7 +146,7 @@ footer{font-size: 13px;margin-top:60px;}
 
 /*Homepage - Splash */
 
-#hero{background: url(../../../images/layout/hero.jpg) no-repeat center;background-size: cover;text-align: center;min-height:500px;}
+#hero{background: url(../images/layout/hero.jpg) no-repeat center;background-size: cover;text-align: center;min-height:500px;}
 #hero > .row > h1 {text-align: left;font-weight: 200; border-left: 3px solid #fff;padding-left:25px;}
 #hero > .row > h1 span {font-weight: bold;}
 #hero > .row{text-align: center; padding: 40px;color:#fff;}

@@ -36,7 +36,10 @@ if ($organization->id != 0) {
     if(!empty($user) && $action == 'request_membership') {
         if(!$user->is_member($organization->id)) {
             $user->send_membership_request($organization->id);    
-        }     
+        }
+        
+        $success = "Your request has been submitted.";
+        include($module_location . 'views/profile.content.php');
     }
     
     elseif(empty($user) || !$user->has_permission($organization->id, $action) ) {

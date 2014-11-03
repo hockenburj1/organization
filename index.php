@@ -6,9 +6,9 @@ if(!empty(session('user'))) {
 }
 
 $page = new Template();
-$page->setContent('title', 'Home | JS');
+$page->setContent('title', 'Home');
 $page->addModule('content', 'organization-search');
-$page->addContent('content', get_content('index.content.php'));
+$page->addContent('content', get_content('views/index.content.php'));
 $page->display();
 
 ?>

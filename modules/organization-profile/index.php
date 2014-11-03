@@ -2,8 +2,11 @@
 $org_id = empty(get('org')) ? '0' : get('org');
 $action = get('action');
 
-//$organization = Organization::search_abbreviation($abbreviation);
 $organization = Organization::get_organization($db, $org_id);
+
+if(empty($organization)) {
+    $organization = new Organization();
+}
 
 // If creating an organization
 if($organization->id == 0) {

@@ -39,7 +39,7 @@ Class Organization {
             return $organizations[0];
         }
         else {
-            return array();
+            return NULL;
         }    
     }
     

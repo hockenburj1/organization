@@ -190,8 +190,8 @@ Class Organization {
         if (!is_numeric($this->parent) && $this->parent != '') {
             return FALSE;
         }
-        
-        if($this->parent == $this->id) {
+
+        if($this->parent === $this->id) {
             return FALSE;
         }
         

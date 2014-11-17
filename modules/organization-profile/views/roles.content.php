@@ -5,6 +5,6 @@
     <span><a href="organization.php?org=<?php echo $organization->id ?>&action=delete_role&rid=<?php echo $role['id'] ?>">Delete</a></span>
     <br/>
 <?php endforeach; ?>
-
+<span><a href="organization.php?org=<?php echo $organization->id ?>&action=add_role">Add Role</a></span>
 
 

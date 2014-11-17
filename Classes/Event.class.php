@@ -29,14 +29,16 @@ class Event {
     
     public static function get_event($db, $event_id) {
         $query = 
-            'SELECT id,
-                oid,
-                name,
-                description,
-                start,
-                finish
-            FROM event 
-            WHERE id = :event_id 
+            'SELECT event.id,
+                event.oid,
+                organization.name as organization,
+                event.name,
+                event.description,
+                event.start,
+                event.finish
+            FROM event
+            JOIN Organization ON organization.id = event.oid 
+            WHERE event.id = :event_id 
             LIMIT 1';
         $params = array('event_id' => $event_id);
         $events = $db->query_objects($query, $params, 'Event');

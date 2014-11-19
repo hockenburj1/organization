@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
-define('SITE_FOLDER', 'organization/');
+define('SITE_FOLDER', 'Organization/');
 $_SERVER['DOCUMENT_ROOT'] = $_SERVER['DOCUMENT_ROOT'] . "/" . SITE_FOLDER;
-define('SITE_URL', 'http://test/' . SITE_FOLDER);
+define('SITE_URL', 'http://localhost/' . SITE_FOLDER);
 
 
 define('ROOT', $_SERVER['DOCUMENT_ROOT']);
@@ -12,7 +12,7 @@ define('TEMPLATE_URL', SITE_URL . 'templates/' . TEMPLATE_FOLDER);
 
 define('DATABASE_HOST', 'localhost');
 define('DATABASE_USER', 'root');
-define('DATABASE_PASSWORD', 'password123');
+define('DATABASE_PASSWORD', '');
 define('DATABASE_NAME', 'org_manager');
 
 function my_autoloader($class) {

@@ -10,6 +10,11 @@
         <link rel="stylesheet" type="text/css" href="<?php echo TEMPLATE_URL ?>css/style.css" />
         <link rel="icon" type="image/png" href="<?php echo TEMPLATE_URL ?>images/organize.png" />
         
+        <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url=http://google.com">
+        </noscript>
+
         <!-- script -->
         <script src="<?php echo TEMPLATE_URL ?>js/jquery-1.9.1.js" type='text/javascript'></script>
         <script>

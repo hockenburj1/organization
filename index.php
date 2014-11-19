@@ -1,6 +1,5 @@
 <?php
 require('config.php');
-
 if(!empty(session('user'))) {
     header("location: dashboard.php");
 }

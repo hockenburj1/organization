@@ -4,47 +4,47 @@ $minutes = array('00', '15', '30', '45');
 $meridiem = array('AM', 'PM');
 ?>
 
-<?php if(isset($event)) : ?>
+<?php if($event->id != 0) : ?>
     <h2>Update Event</h2>
     <hr />
     <form method="post" action="event.php?event=<?php echo $event->id ?>&action=<?php echo $action ?>">
 <?php else : ?>
     <h2>Add Event</h2>
     <hr />
-    <form method="post" action="event.php?action=<?php echo $action ?>">
+    <form method="post" action="event.php?org=<?php echo $org_id ?>&action=<?php echo $action ?>">
 <?php endif; ?>
     <p>
         <label>Name: </label>
-        <input type="text" value="<?php if(isset($event)) {echo $event->name;} ?>"/>
+        <input name='event-name' type="text" value="<?php echo $event->name; ?>"/>
     </p>
     <p>
         <label>Description: </label>
-        <textarea type="text"><?php if(isset($event)) {echo $event->description;} ?></textarea>
+        <textarea name='event-description' type="text"><?php echo $event->description; ?></textarea>
     </p>
     <p>
         <label>Start Date: </label>
-        <input type="text" value="<?php if(isset($event)) {echo $event->start->format('m/d/Y');} ?>"/>
-        <select>
+        <input name='event-start' type="text" value="<?php if($event->id != 0) {echo $event->start->format('m/d/Y');} ?>"/>
+        <select name='event-start-hours'>
             <?php foreach ($hours as $hour) : ?>
-                <?php if (isset($event) && $hour == $event->start->format('h')) : ?>
+                <?php if ($event->id != 0 && $hour == $event->start->format('h')) : ?>
                     <option selected="selected"><?php echo $hour ?></option>
                 <?php else : ?>
                     <option><?php echo $hour ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select>
+        <select name='event-start-minutes'>
             <?php foreach ($minutes as $minute) : ?>
-                <?php if (isset($event) && $minute == $event->start->format('i')) : ?>
+                <?php if ($event->id != 0 && $minute == $event->start->format('i')) : ?>
                     <option selected="selected"><?php echo $minute ?></option>
                 <?php else : ?>
                     <option><?php echo $minute ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select>
+        <select name='event-start-meridiem'>
             <?php foreach ($meridiem as $m) : ?>
-                <?php if (isset($event) && $m == $event->start->format('A')) : ?>
+                <?php if ($event->id != 0 && $m == $event->start->format('A')) : ?>
                     <option selected="selected"><?php echo $m ?></option>
                 <?php else : ?>
                     <option><?php echo $m ?></option>
@@ -54,28 +54,28 @@ $meridiem = array('AM', 'PM');
     </p>
     <p>
         <label>End Date: </label>
-        <input type="text" value="<?php if(isset($event)) {echo $event->finish->format('m/d/Y');} ?>"/>
-        <select>
+        <input name='event-end' type="text" value="<?php if($event->id != 0) {echo $event->finish->format('m/d/Y');} ?>"/>
+        <select name='event-end-hours'>
             <?php foreach ($hours as $hour) : ?>
-                <?php if (isset($event) && $hour == $event->finish->format('h')) : ?>
+                <?php if ($event->id != 0 && $hour == $event->finish->format('h')) : ?>
                     <option selected="selected"><?php echo $hour ?></option>
                 <?php else : ?>
                     <option><?php echo $hour ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select>
+        <select name='event-end-minutes'>
             <?php foreach ($minutes as $minute) : ?>
-                <?php if (isset($event) && $minute == $event->finish->format('i')) : ?>
+                <?php if ($event->id != 0 && $minute == $event->finish->format('i')) : ?>
                     <option selected="selected"><?php echo $minute ?></option>
                 <?php else : ?>
                     <option><?php echo $minute ?></option>
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select>
+        <select name='event-end-meridiem'>
             <?php foreach ($meridiem as $m) : ?>
-                <?php if (isset($event) && $m == $event->finish->format('A')) : ?>
+                <?php if ($event->id != 0 && $m == $event->finish->format('A')) : ?>
                     <option selected="selected"><?php echo $m ?></option>
                 <?php else : ?>
                     <option><?php echo $m ?></option>
@@ -84,12 +84,11 @@ $meridiem = array('AM', 'PM');
         </select>
     </p>
     <p>
-        <?php if(isset($event)) : ?>
+        <?php if($event->id != 0 ): ?>
             <button>Update Event</button>
         <?php else : ?>
             <button>Add Event</button>
         <?php endif; ?>
-    </p>
-    
+    </p>   
 </form>
 

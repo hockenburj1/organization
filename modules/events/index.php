@@ -6,15 +6,30 @@ $action = get('action');
 // If a specific event is indicated
 if($event_id != 0) { 
     $event = Event::get_event($db, $event_id);
-    
+
     // Check event existence and organization membership
     if(empty($event) || !$user->is_member($event->oid)) {
         $events = $user->get_events();
         include($module_location . 'views/all.content.php');
     }
-    
+
+    // Handle Registration
+    elseif ($action == 'register' || $action == 'unregister') {  
+        if ($action == 'register') {
+            $event->register();
+        }
+
+        else {
+            $event->unregister();
+        }
+        
+        $attendees = $event->get_attendees();
+        include($module_location . 'views/event.content.php'); 
+    }
+
     // Verify user permissions
     elseif(!$user->has_permission($event->oid, $action) ) {
+        $attendees = $event->get_attendees();
         include($module_location . 'views/event.content.php'); 
     }
     
@@ -50,6 +65,7 @@ if($event_id != 0) {
                     $event->description = post('event-description');
                     $event->start = $start;
                     $event->finish = $end;
+                    $event->location = post('event-location');
 
                     if ($event->save()) {
                         header("location: event.php?org=" . $event->oid);
@@ -57,6 +73,10 @@ if($event_id != 0) {
                 }
 
                 include($module_location . 'views/event.form.php'); 
+                break;
+            case 'cancel_event':
+                $event->delete();
+                header('location: event.php?org=' . $event->oid);
                 break;
             default :
                 include($module_location . 'views/event.content.php'); 
@@ -100,6 +120,7 @@ elseif ($org_id != 0 && $user->is_member($org_id)) {
             $event->description = post('event-description');
             $event->start = $start;
             $event->finish = $end;
+            $event->location = post('event-location');
 
             if ($event->save()) {
                 header("location: event.php?org=" . $event->oid);

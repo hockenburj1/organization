@@ -22,6 +22,10 @@ $meridiem = array('AM', 'PM');
         <textarea name='event-description' type="text"><?php echo $event->description; ?></textarea>
     </p>
     <p>
+        <label>Location: </label>
+        <input name='event-location' type="text" value="<?php echo $event->location; ?>"/>
+    </p>
+    <p>
         <label>Start Date: </label>
         <input name='event-start' type="text" value="<?php if($event->id != 0) {echo $event->start->format('m/d/Y');} ?>"/>
         <select name='event-start-hours'>

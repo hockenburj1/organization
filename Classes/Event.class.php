@@ -13,10 +13,11 @@
  */
 class Event {
     public $id;
-    public $name;
-    public $description;
-    public $start;
-    public $finish;
+    public $name = '';
+    public $description = '';
+    public $start = '';
+    public $finish = '';
+    public $location = '';
 
     public function __construct($event_id = 0) {
         global $db;
@@ -35,6 +36,7 @@ class Event {
                 organization.name as organization,
                 event.name,
                 event.description,
+                event.location,
                 event.start,
                 event.finish
             FROM event
@@ -54,7 +56,7 @@ class Event {
 
     public function save() {
         // Perform data validation
-        if(empty($this->name) || empty($this->description) || empty($this->start) || empty($this->finish)) {
+        if(empty($this->name) || empty($this->description) || empty($this->location) || empty($this->start) || empty($this->finish)) {
             echo "1";
             return false;
         }
@@ -87,12 +89,13 @@ class Event {
 
         // Add Event
         if ($update == false) {
-            $query = "INSERT INTO Event ('oid', 'name', 'description', 'start', 'finish') VALUES(:oid, :name, :description, :start, :finish)";
+            $query = "INSERT INTO Event (oid, name, description, location, start, finish) VALUES(:oid, :name, :description, :location, :start, :finish)";
             $params = 
             array(
                 'oid' => $this->oid,
                 'name' => $this->name,
                 'description' => $this->description,
+                'location' => $this->location,
                 'start' => $this->start->format('Y-m-d H:i:00'),
                 'finish' => $this->finish->format('Y-m-d H:i:00')
             );
@@ -105,6 +108,7 @@ class Event {
                 "UPDATE Event SET 
                     name = :name,
                     description = :description,
+                    location = :location,
                     start = :start,
                     finish = :finish
                 WHERE id = :id"; 
@@ -113,6 +117,7 @@ class Event {
                 'id' => $this->id,
                 'name' => $this->name,
                 'description' => $this->description,
+                'location' => $this->location,
                 'start' => $this->start->format('Y-m-d H:i:00'),
                 'finish' => $this->finish->format('Y-m-d H:i:00')
             );
@@ -134,5 +139,74 @@ class Event {
         }
 
         return false;
+    }
+
+    public function get_attendees() {
+        $query = 'SELECT uid FROM event_attendee WHERE eid = :eid';
+        $params = array('eid' => $this->id);
+        $uids = $this->db->query($query, $params);
+
+        if(!empty($uids)) {
+            $uids_array = array();
+            foreach ($uids as $row) {
+                $uids_array[] = $row['uid'];
+            }
+
+            $attendees = User::get_users($this->db, $uids_array);    
+        }
+        
+        else {
+            return array();
+        }
+
+        return $attendees;
+    }
+
+    public function register() {
+        // Check if registration already happened
+        if($this->is_attending()) {
+            return;
+        }
+
+        $query = 'INSERT INTO event_attendee (eid, uid) VALUES (:eid, :uid)';
+        $params = 
+            array(
+                'eid' => $this->id,
+                'uid' => session('user')
+            );      
+        $this->db->query($query, $params);
+    }
+
+    public function unregister() {
+        $query = 'DELETE FROM event_attendee WHERE eid = :eid AND uid = :uid';
+        $params = 
+            array(
+                'eid' => $this->id,
+                'uid' => session('user')
+            );
+        $this->db->query($query, $params);    
+    }
+
+    public function is_attending() {
+        $query = 'SELECT * FROM event_attendee WHERE eid = :eid AND uid = :uid';
+        $params = 
+            array(
+                'eid' => $this->id,
+                'uid' => session('user')
+            );
+        $results = $this->db->query($query, $params); 
+        
+        if(!empty($results)) {
+            return true;
+        }   
+    }
+
+    public function delete() {
+        $query = 'DELETE FROM event WHERE id = :eid';
+        $params = 
+            array(
+                'eid' => $this->id,
+            );
+        $results = $this->db->query($query, $params); 
     }
 }

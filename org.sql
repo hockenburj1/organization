@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `org_manager` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `org_manager`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
+-- MySQL dump 10.13  Distrib 5.6.19, for osx10.7 (i386)
 --
--- Host: localhost    Database: org_manager
+-- Host: 127.0.0.1    Database: org_manager
 -- ------------------------------------------------------
--- Server version	5.6.14
+-- Server version	5.6.20
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -55,11 +55,12 @@ CREATE TABLE `event` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `oid` int(11) DEFAULT NULL,
   `name` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
+  `description` varchar(2000) DEFAULT NULL,
+  `location` varchar(145) DEFAULT NULL,
   `start` datetime DEFAULT NULL,
   `finish` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,8 +69,37 @@ CREATE TABLE `event` (
 
 LOCK TABLES `event` WRITE;
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
-INSERT INTO `event` VALUES (1,23,'First Event','This is the first Event','2015-01-03 19:30:32','2015-01-03 19:30:39');
+INSERT INTO `event` VALUES (3,23,'Operation Christmas Child Party','<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>\r\n<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>','NKU','2015-11-12 18:45:00','2015-11-12 19:00:00');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `event_attendee`
+--
+
+DROP TABLE IF EXISTS `event_attendee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_attendee` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `eid` int(11) DEFAULT NULL,
+  `uid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `event_idx` (`eid`),
+  KEY `user_idx` (`uid`),
+  CONSTRAINT `ea_event` FOREIGN KEY (`eid`) REFERENCES `event` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `ea_user` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `event_attendee`
+--
+
+LOCK TABLES `event_attendee` WRITE;
+/*!40000 ALTER TABLE `event_attendee` DISABLE KEYS */;
+INSERT INTO `event_attendee` VALUES (10,3,1);
+/*!40000 ALTER TABLE `event_attendee` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -228,7 +258,7 @@ CREATE TABLE `role` (
   `title` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rid_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,7 +288,7 @@ CREATE TABLE `role_membership` (
   KEY `role_idx` (`rid`),
   CONSTRAINT `rm_organization` FOREIGN KEY (`oid`) REFERENCES `organization` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `rm_role` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -422,4 +452,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-31 11:17:13
+-- Dump completed on 2014-11-24 12:46:30

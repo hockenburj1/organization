@@ -208,7 +208,8 @@ footer{font-size: 13px;margin-top:60px;}
 }
 .right-nav > ul > li
 {
-    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 .right-nav > ul > li a
 {
@@ -268,7 +269,10 @@ footer{font-size: 13px;margin-top:60px;}
 
 .listing
 {
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
+
 .listing-img
 {
     max-width:300px;

@@ -4,7 +4,7 @@
         <div class="error"><?php echo $error; ?></div>
     <?php endif; ?>
     <?php if(isset($success)) : ?>
-        <div class="error"><?php echo $error; ?></div>
+        <!--<div class="error"></div>-->
     <?php endif; ?>
     </div>
     <h1><?php echo $organization->name ?></h1>

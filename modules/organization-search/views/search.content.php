@@ -13,10 +13,12 @@
 </script>
   
 <div id="search-form">
-    <form action="search.php" method="get">
+    <form action="search.php" method="get" class="navbar-form">
+        <div class="form-group">
         <input class="search-box search-box-main" type="text" placeholder="Organization name..." id="keyword" name="keyword" value="<?php if(isset($_POST['keyword'])) echo $_POST['keyword'] ?>"/>
     <input class="search-box search-box-main" type="text" placeholder="Organization Association" id="tag" name="tag" value="<?php if(isset($_POST['tag'])) echo $_POST['tag'] ?>"/>
     <input class="button" type="submit" />
+            </div>
     </form>
 </div>
 
@@ -44,3 +46,5 @@
     <?php endif; ?>
 <?php endif; ?>
 </div>
+
+

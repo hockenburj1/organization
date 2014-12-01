@@ -28,6 +28,25 @@ footer{font-size: 13px;margin-top:60px;}
     margin: 0 auto;
     /*border: 1px solid #d8d8d8;*/
 }
+
+.max-width
+{
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    padding: 20px;
+}
+
+#login-form
+{
+    box-shadow: 0 1px 0 #cfcfcf;
+    border-radius: 3px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #d2d2d2;
+}
 #site-header 
 {
     text-align: justify;
@@ -156,7 +175,11 @@ footer{font-size: 13px;margin-top:60px;}
 #splash .is-bold{font-size:16px;}
 #splash h3{margin-top: 0;}
 
-
+.content-wrap
+{
+    background-color: #fafafa;
+    padding: 20px;
+}
 
 
 
@@ -166,6 +189,99 @@ footer{font-size: 13px;margin-top:60px;}
 ========================================================================== */
 .m-featured-block{margin-top:60px;}
 
+
+.right-nav
+{
+    background-color: #dcdddf;
+    padding: 0;
+}
+
+.right-nav > #user-greeting
+{
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 24px;
+    padding-bottom: 25px;
+    margin-bottom: 0;
+    color: #555;
+    border-bottom: 5px solid #999;
+}
+.right-nav > ul > li
+{
+    margin-bottom: 20px;
+}
+.right-nav > ul > li a
+{
+    color:#757575;
+    display: block;
+    text-align: center;
+}
+.right-nav .icon
+{
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    
+}
+.decorative-border{min-height: 10px; background-color:#dcdddf; width:100%;}
+
+
+.card
+{
+    box-shadow: 0 1px 0 #cfcfcf;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #d2d2d2;
+}
+.card .card-heading
+{
+    background-color:#ffffff;
+    font-weight:700;
+    font-size:16px;
+    color:#262626;
+    border-color:#ffffff;
+}
+.card .card-heading a
+{
+    font-weight:400;
+    font-size:11px;
+}
+.card .lead
+{
+    font-size: 24px;
+    margin: 0;
+}
+.card .card-default
+{
+    border-color:#cccccc;
+}
+.card-body
+{
+    padding: 15px;
+    border-top: 1px solid #d2d2d2;
+}
+.card .card-thumbnail
+{
+    padding:0;
+}
+
+.listing
+{
+}
+.listing-img
+{
+    max-width:300px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+.listing h2
+{
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
 
 /* ==========================================================================
 	    STYLE
@@ -196,6 +312,13 @@ footer{font-size: 13px;margin-top:60px;}
 .is-bold{font-weight: bold; color: #333;}
 li.is-bold, p.is-bold{font-size:16px;}
 
+.right-nav li.active
+{
+    background-color: #fafafa;
+    border-left: 10px solid #f06c61;
+}
+
+
 
 
 /* ==========================================================================
@@ -214,6 +337,29 @@ li.is-bold, p.is-bold{font-size:16px;}
 {
     #site-nav{display:none!important;}
     #showHide{display:block;}
+}
+
+/*xs*/
+@media (max-width: 767px)
+{
+    .right-nav > ul
+    {
+        margin-bottom: 0;
+    }
+    .right-nav > ul > li
+    {
+        padding: 0 0.6em;
+        white-space: nowrap;
+        display: inline-block;
+        text-align: center;
+        height: 30px;
+        padding-top: 5px;
+    }
+    .right-nav > ul > li a
+    {
+        padding: 10px;
+        display: inline;
+    }
 }
 
 @media screen and (max-width: 720px)

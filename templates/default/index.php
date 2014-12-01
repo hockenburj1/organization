@@ -42,7 +42,7 @@
                 </nav>
             </div>
              <header id="site-header">
-                <div><h1 id="logo"><a href="http://www.thenortherner.com/">Organization Management</a></h1></div>
+                <div><h1 id="logo"><a href="index.php">Organization Management</a></h1></div>
                     <nav id="site-nav">
                         <a href="index.php">Home</a>
                         <a href="search.php">Search</a>

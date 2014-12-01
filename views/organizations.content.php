@@ -42,10 +42,15 @@
         <?php foreach ($organizations as $organization) : ?>
             <div class="row listing">
                 <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="listing-img"><img src="templates/default/images/content/card-holder.jpg" class="img-responsive"></div>
+                    <div class="listing-img"><img src="templates/default/images/content/FBLA-PBL.gif" class="img-responsive"></div>
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8">
+<<<<<<< Updated upstream
                     <h2><a href="organization.php?org=<?php echo $organization->id ?>"><?php echo $organization->name ?></a></h2>
+=======
+                    <h2>Organization Title</h2>
+                    <!--
+>>>>>>> Stashed changes
                     <div class="meta-data row">
                         <ul class="col-xs-12 col-sm-6 col-md-6">
                             <li>P: 859-835-3842</li>
@@ -58,7 +63,15 @@
                             <li>Events (#)</li>
                         </ul>
                     </div>
+<<<<<<< Updated upstream
                     <p><?php echo $organization->description ?></p>
+=======
+                    -->
+                    <div class="meta-data">
+                        <p><a href="">Members (5)</a> | <a href="">Articles (9)</a> | <a href="">Events (1)</a></p>
+                    </div>
+                    <p>This is roughly 50 words. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id pretium odio. Sed suscipit arcu id lorem vehicula, vel tristique elit lobortis. Nam imperdiet ex sit amet lobortis maximus. Nullam volutpat magna at lorem egestas, quis mollis leo aliquet. Aenean hendrerit fringilla ultrices. Praesent ornare in elit ut lacinia.</p>
+>>>>>>> Stashed changes
                 </div>
             </div>
         <?php endforeach; ?>

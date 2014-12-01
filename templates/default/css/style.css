@@ -47,10 +47,20 @@ footer{font-size: 13px;margin-top:60px;}
     background-color: #fff;
     border: 1px solid #d2d2d2;
 }
+#edit-user
+{
+    box-shadow: 0 1px 0 #cfcfcf;
+    border-radius: 3px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid #d2d2d2;
+} 
+}
 #site-header 
 {
     text-align: justify;
-    height: 50px;;
+    height: 50px;
     padding: 0 5%;
     background: #333;
     color: #e9e9e9;
@@ -208,8 +218,7 @@ footer{font-size: 13px;margin-top:60px;}
 }
 .right-nav > ul > li
 {
-    padding-bottom: 10px;
-    padding-top: 10px;
+    margin-bottom: 20px;
 }
 .right-nav > ul > li a
 {
@@ -269,10 +278,8 @@ footer{font-size: 13px;margin-top:60px;}
 
 .listing
 {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 0 15px;
 }
-
 .listing-img
 {
     max-width:300px;
@@ -321,7 +328,10 @@ li.is-bold, p.is-bold{font-size:16px;}
     background-color: #fafafa;
     border-left: 10px solid #f06c61;
 }
-
+.right-nav li.active a
+{
+    margin-left:-10px;
+}
 
 
 

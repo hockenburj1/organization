@@ -1,3 +1,17 @@
+<div class="container-fluid">
+    <div class="row" style="background-color:#dcdddf;">
+    <?php include('views/menu-start.php'); ?>
+        <ul>
+            <li>
+                <a href="event.php?event=<?php echo $event->id ?>&action=edit_event">
+                    <img src="templates/default/images/layout/thumb-add.png" alt="Edit Event" height="40" width="40" class="icon hidden-xs">
+                    Calendar
+                </a>
+            </li>
+        </ul>
+    <?php include('views/menu-end.php'); ?>
+    <div class="col-xs-12 col-sm-9 col-md-9 content-wrap">  
+
 <?php 
 $hours = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
 $minutes = array('00', '15', '30', '45');

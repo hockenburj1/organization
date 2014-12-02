@@ -55,7 +55,6 @@ footer{font-size: 13px;margin-top:60px;}
     margin-bottom: 20px;
     background-color: #fff;
     border: 1px solid #d2d2d2;
-} 
 }
 #site-header 
 {
@@ -278,7 +277,7 @@ footer{font-size: 13px;margin-top:60px;}
 
 .listing
 {
-    padding: 0 15px;
+    padding: 15px;
 }
 .listing-img
 {

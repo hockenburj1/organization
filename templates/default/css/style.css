@@ -19,6 +19,9 @@ body
 footer{font-size: 13px;margin-top:60px;}
 
 
+input[type="checkbox"]{margin: 10px;}
+
+
 /* ==========================================================================
 	    LAYOUT
 ========================================================================== */
@@ -47,6 +50,7 @@ footer{font-size: 13px;margin-top:60px;}
     background-color: #fff;
     border: 1px solid #d2d2d2;
 }
+<<<<<<< Updated upstream
 #edit-user
 {
     box-shadow: 0 1px 0 #cfcfcf;
@@ -56,6 +60,8 @@ footer{font-size: 13px;margin-top:60px;}
     background-color: #fff;
     border: 1px solid #d2d2d2;
 }
+=======
+>>>>>>> Stashed changes
 #site-header 
 {
     text-align: justify;
@@ -188,6 +194,7 @@ footer{font-size: 13px;margin-top:60px;}
 {
     background-color: #fafafa;
     padding: 20px;
+    min-height: 536px;
 }
 
 
@@ -217,7 +224,8 @@ footer{font-size: 13px;margin-top:60px;}
 }
 .right-nav > ul > li
 {
-    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 .right-nav > ul > li a
 {
@@ -277,8 +285,14 @@ footer{font-size: 13px;margin-top:60px;}
 
 .listing
 {
+<<<<<<< Updated upstream
     padding: 15px;
+=======
+    padding-top: 15px;
+    padding-bottom: 15px;
+>>>>>>> Stashed changes
 }
+
 .listing-img
 {
     max-width:300px;
@@ -329,7 +343,7 @@ li.is-bold, p.is-bold{font-size:16px;}
 }
 .right-nav li.active a
 {
-    margin-left:-10px;
+    margin-left: -10px;
 }
 
 

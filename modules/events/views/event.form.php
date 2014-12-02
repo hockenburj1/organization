@@ -11,24 +11,25 @@ $meridiem = array('AM', 'PM');
 <?php else : ?>
     <h2>Add Event</h2>
     <hr />
-    <form method="post" action="event.php?org=<?php echo $org_id ?>&action=<?php echo $action ?>">
+    <form method="post" class="form" action="event.php?org=<?php echo $org_id ?>&action=<?php echo $action ?>">
 <?php endif; ?>
-    <p>
-        <label>Name: </label>
-        <input name='event-name' type="text" value="<?php echo $event->name; ?>"/>
-    </p>
-    <p>
-        <label>Description: </label>
-        <textarea name='event-description' type="text"><?php echo $event->description; ?></textarea>
-    </p>
-    <p>
-        <label>Location: </label>
-        <input name='event-location' type="text" value="<?php echo $event->location; ?>"/>
-    </p>
-    <p>
-        <label>Start Date: </label>
-        <input name='event-start' type="text" value="<?php if($event->id != 0) {echo $event->start->format('m/d/Y');} ?>"/>
-        <select name='event-start-hours'>
+    <div class="form-group">
+        <label class="form-label col-xs-2">Name: </label>
+        <div class="col-xs-10">
+        <input name='event-name' type="text" class="form-control" value="<?php echo $event->name; ?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label col-xs-2">Location: </label>
+        <div class="col-xs-10">
+        <input name='event-location' type="text" class="form-control" value="<?php echo $event->location; ?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="form-label col-xs-2">Start Date: </label>
+        <div class="col-xs-10">
+        <input name='event-start' type="text" class="col-xs-3" value="<?php if($event->id != 0) {echo $event->start->format('m/d/Y');} ?>"/>
+        <select name='event-start-hours' class="col-xs-3">
             <?php foreach ($hours as $hour) : ?>
                 <?php if ($event->id != 0 && $hour == $event->start->format('h')) : ?>
                     <option selected="selected"><?php echo $hour ?></option>
@@ -37,7 +38,7 @@ $meridiem = array('AM', 'PM');
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select name='event-start-minutes'>
+        <select name='event-start-minutes' class="col-xs-3">
             <?php foreach ($minutes as $minute) : ?>
                 <?php if ($event->id != 0 && $minute == $event->start->format('i')) : ?>
                     <option selected="selected"><?php echo $minute ?></option>
@@ -46,7 +47,7 @@ $meridiem = array('AM', 'PM');
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-        <select name='event-start-meridiem'>
+        <select name='event-start-meridiem' class="col-xs-3">
             <?php foreach ($meridiem as $m) : ?>
                 <?php if ($event->id != 0 && $m == $event->start->format('A')) : ?>
                     <option selected="selected"><?php echo $m ?></option>
@@ -55,7 +56,9 @@ $meridiem = array('AM', 'PM');
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
-    </p>
+
+        </div>
+    </div>
     <p>
         <label>End Date: </label>
         <input name='event-end' type="text" value="<?php if($event->id != 0) {echo $event->finish->format('m/d/Y');} ?>"/>
@@ -86,6 +89,10 @@ $meridiem = array('AM', 'PM');
                 <?php endif; ?>
             <?php endforeach; ?>
         </select>
+    </p>
+    <p>
+        <label>Description: </label>
+        <textarea name='event-description' type="text"><?php echo $event->description; ?></textarea>
     </p>
     <p>
         <?php if($event->id != 0 ): ?>

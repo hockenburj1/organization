@@ -38,20 +38,26 @@
         </div>
         <div class="col-xs-12 col-sm-9 col-md-9 content-wrap">
         <h1>Your Organizations</h1>
+        <hr>
         <?php if (!empty($organizations)) : ?>
         <?php foreach ($organizations as $organization) : ?>
             <div class="row listing">
                 <div class="col-xs-4 col-sm-4 col-md-4">
-                    <div class="listing-img"><img src="templates/default/images/content/FBLA-PBL.gif" class="img-responsive"></div>
+                    <div class="listing-img"><img src="templates/default/images/content/card-holder.jpg" class="img-responsive"></div>
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8">
                     <h2><a href="organization.php?org=<?php echo $organization->id ?>"><?php echo $organization->name ?></a></h2>
+<<<<<<< Updated upstream
                     <div class="meta-data">
                         <p><a href="">Members (5)</a> | <a href="">Articles (9)</a> | <a href="">Events (1)</a></p>
                     </div>
                     <p>This is roughly 50 words. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id pretium odio. Sed suscipit arcu id lorem vehicula, vel tristique elit lobortis. Nam imperdiet ex sit amet lobortis maximus. Nullam volutpat magna at lorem egestas, quis mollis leo aliquet. Aenean hendrerit fringilla ultrices. Praesent ornare in elit ut lacinia.</p>
+=======
+                    <p><?php echo $organization->description ?></p>
+>>>>>>> Stashed changes
                 </div>
             </div>
+            <hr>
         <?php endforeach; ?>
         <?php else : ?>
             <div>You are not currently a member of any organizations. <a href="search.php">Search for Organizations</a></div>

@@ -1,3 +1,5 @@
+<div class="container-fluid">
+    <div id="login-form" class="row max-width">
 <h1>New User Registration</h1>
 
 <div class="form">
@@ -35,4 +37,6 @@
 <div class="form-extra">
     <h3>Disclaimer</h3>
     <span>This information will be solely used for the purposes of sending you important updates about the organization you have selected. If at any point you choose to discontinue receiving e-mails this option will be provided at the end of each email.</span>
+</div>
+            </div>
 </div>

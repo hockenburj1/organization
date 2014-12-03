@@ -2,11 +2,23 @@
     <div class="row" style="background-color:#dcdddf;">
     <?php include('views/menu-start.php'); ?>
     	<ul>
-    		<li>
+            <li>
+                <a href="dashboard.php">
+                    <img src="templates/default/images/layout/thumb-home.png" alt="Dashboard" height="40" width="40" class="icon hidden-xs">
+                    Dashboard
+                </a>
+            </li>
+            <li class="active">
+                <a href="event.php">
+                    <img src="templates/default/images/layout/thumb-events.png" alt="Search Events" height="40" width="40" class="icon hidden-xs">
+                    Events
+                </a>
+            </li>
+            <li>
                 <a href="event.php?org=<?php echo $organization->id ?>&action=add_event">
                     <img src="templates/default/images/layout/thumb-add.png" alt="Add Event" height="40" width="40" class="icon hidden-xs">
-                	Add Event
-            	</a>
+                    Add Event
+                </a>
             </li>
         </ul>
     <?php include('views/menu-end.php'); ?>

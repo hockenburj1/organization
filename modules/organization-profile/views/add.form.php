@@ -1,33 +1,76 @@
+<div class="container-fluid">
+    <div class="row" style="background-color:#dcdddf;">
+    <?php include('views/menu-start.php'); ?>
+    	<ul>
+            <li>
+                <a href="dashboard.php">
+                    <img src="templates/default/images/layout/thumb-home.png" alt="Dashboard" height="40" width="40" class="icon hidden-xs">
+                    Dashboard
+                </a>
+                </li>
+                <li>
+                    <a href="organizations.php">
+                        <img src="templates/default/images/layout/thumb-organizations.png" alt="Search Organization" height="40" width="40" class="icon hidden-xs">
+                        Organizations
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="organization.php?action=add_organization">
+                        <img src="templates/default/images/layout/thumb-add.png" alt="Add Organization" height="40" width="40" class="icon hidden-xs">
+                        Add Organization
+                    </a>
+                </li>
+            </ul>
+    <?php include('views/menu-end.php'); ?>
+    <div class="col-xs-12 col-sm-9 col-md-9 content-wrap">	
 <h1>Add Organization</h1>
-<div class="form">
+        <hr>
+<div class="form form-horizontal">
     <div>
     <?php if(isset($error)) : ?>
         <div class="error"><?php echo $error; ?></div>
     <?php endif; ?>
     </div>
     <form method="POST" type="multipart">
-    <p>
-        <label>Name:</label><input type="text" name="name" placeholder="Kentucky Phi Beta Lambda" value="<?php echo post('name') ?>"/>
-    </p>
-    <p>
-        <label>Abbreviation:</label><input type="text" name="abbreviation" value="<?php echo post('abbreviation') ?>"/>
-    </p>
-    <p>
-        <label>Description:</label><textarea name="description" rows="5"><?php echo post('description') ?></textarea>
-    </p>
-    <p>
-        <label>Image/Logo:</label><input name="logo" type="file" />
-    </p>
-    <p>
-        <label>Parent:</label><input type="text" name="parent" id="parent-name" value="<?php echo post('parent-name') ?>"/>
-    </p>
-    <p>
-        <input name="request" type="checkbox" value="TRUE" <?php if(empty($_POST) || post('request') == 'TRUE') {echo "checked";} ?>/> I would like this organization to appear in the search results.
-    </p>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Name:</label>
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" placeholder="Kentucky Phi Beta Lambda" value="<?php echo post('name') ?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Abbreviation:</label>
+        <div class="col-sm-10">
+            <input type="text" name="abbreviation" class="form-control" value="<?php echo post('abbreviation') ?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Description:</label>
+        <div class="col-sm-10">
+            <textarea name="description" class="form-control" rows="5"><?php echo post('description') ?></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Image/Logo:</label>
+        <div class="col-sm-10">
+            <input name="logo" type="file" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Parent:</label>
+        <div class="col-sm-10">
+            <input type="text" name="parent" class="form-control" id="parent-name" value="<?php echo post('parent-name') ?>"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <input name="request" class="form-control" type="checkbox" value="TRUE" <?php if(empty($_POST) || post('request') == 'TRUE') {echo "checked";} ?>/> I would like this organization to appear in the search results.
+        </div>
+    </div>
     <input type="hidden" name="parent_id" id="parent_id" value="<?php echo post('parent_id') ?>"/>
-    <p>
+    <div class="form-group">
         <input type="submit" class="button" value="Add Organization"/>
-    </p>
+    </div>
     </form>
 </div>
 <div class="form-extra">
@@ -42,6 +85,10 @@
     </div>
 </div>
 
+        </div><!--/content wrap-->
+    </div><!--/row-->   
+</div><!--/container-->
+        
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>

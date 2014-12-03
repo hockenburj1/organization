@@ -1,7 +1,38 @@
+<div class="container-fluid">
+    <div class="row" style="background-color:#dcdddf;">
+    <?php include('views/menu-start.php'); ?>
+    	<ul>
+            <li>
+                    <a href="dashboard.php">
+                        <img src="templates/default/images/layout/thumb-home.png" alt="Dashboard" height="40" width="40" class="icon hidden-xs">
+                        Dashboard
+                    </a>
+            </li>
+ <?php if ( $user->has_permission($organization->id, 'edit_organization') ) : ?>
+                    <li>
+                        <a href="organizations.php">
+                            <img src="templates/default/images/layout/thumb-organizations.png" alt="Search Organization" height="40" width="40" class="icon hidden-xs">
+                            Organizations
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="organization.php?org=<?php echo $organization->id ?>&action=edit_organization">
+                        <img src="templates/default/images/layout/thumb-edit.png" alt="Make Edits" height="40" width="40" class="icon hidden-xs">
+                        Edit Organization</a>
+                    </li>
+                    <?php endif; ?>
+                <li>
+                    <a href="organization.php?action=add_organization">
+                        <img src="templates/default/images/layout/thumb-add.png" alt="Add Organization" height="40" width="40" class="icon hidden-xs">
+                        Add Organization
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 content-wrap">
 <h1>Edit Organization</h1>
 <hr>
-
-<div class="form">
+<div class="form form-horizontal">
     <div>
     <?php if(isset($error)) : ?>
         <div class="error"><?php echo $error; ?></div>
@@ -11,7 +42,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Name:</label>
 		<div class="col-sm-10">
-			<input type="text" name="name" class="form-control " value="<?php echo $organization->name ?>"/>
+			<input type="text" name="name" class="form-control" value="<?php echo $organization->name ?>"/>
 		</div>
     </div>
     <div class="form-group">
@@ -58,6 +89,9 @@
         <span>Organizations can be linked with their parent organizations with this feature. To begin searching begin typing the organizations name and options will be provided to choose from.</span>
     </div>
 </div>
+        </div><!--/content wrap-->
+    </div><!--/row-->   
+</div><!--/container-->
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>

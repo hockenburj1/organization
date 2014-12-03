@@ -1,10 +1,8 @@
 <div class="container-fluid">
     <div class="row" style="background-color:#dcdddf;">
-        <div class="decorative-border"></div>
-        <div class="col-xs-12 col-sm-3 col-md-3 right-nav">
-            <h1 id="user-greeting" class="hidden-xs">Hello, <?php echo $user->name ?></h1>
-            <ul>
-                <li class="active">
+    <?php include('views/menu-start.php'); ?>
+    	<ul>
+            <li class="active">
                     <a href="dashboard.php">
                         <img src="templates/default/images/layout/thumb-home.png" alt="Dashboard" height="40" width="40" class="icon hidden-xs">
                         Dashboard
